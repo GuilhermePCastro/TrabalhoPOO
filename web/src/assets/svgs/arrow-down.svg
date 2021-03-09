@@ -1,0 +1,25 @@
+<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+
+
+
+ @foreach($produtos as $produto)
+          <tr align='center'>
+                <td>{{ $produto -> DS_CODIGO]}</td>
+                <td>{{ $produto -> DS_NOME]}</td>
+                <td>{{ $produto -> DS_CATEGORIA }}</td>
+                <td width='390'>
+                    <a href='#'>
+                        <button class='table__button table__edit' type='button'>
+                        <img src='.../../svgs/edit-icon.svg' alt='editar'>
+                        Alterar
+                        </button>
+                    </a>
+                    <a href='#'>
+                        <button class='table__button table__remove' type='button'>
+                        <img src='../../svgs/trash-icon.svg' alt='remover'>
+                        Excluir
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        @endforeach
