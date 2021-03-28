@@ -188,7 +188,7 @@
               <input name="complemento" type="text" />
             </label>
             <label class="input-container input-container-50">
-              Refêrencia
+              Referência
               <input name="referencia" type="text" />
             </label>
           </div>

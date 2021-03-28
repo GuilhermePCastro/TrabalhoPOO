@@ -3,8 +3,6 @@
 include_once "./config/db.php";
 
 // validando usuário
-
-
 include "./functions/valida_user.php";
 
 //pegando variaveis

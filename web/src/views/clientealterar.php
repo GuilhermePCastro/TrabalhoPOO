@@ -117,7 +117,7 @@
             </label>
             <label class="input-container input-container-45">
               CPF/CNPJ*
-              <input name="cpf" type="number" value='<?php echo "{$array['NR_CPF']}"?>' required/>
+              <input name="cpf" type="number" value='<?php echo "{$array['NR_CPF']}"?>' required disabled/>
             </label>
             <label class="input-container input-container-45">
               E-mail*
@@ -187,7 +187,7 @@
               <input name="complemento" value='<?php echo "{$array['DS_COMPLEMENTO']}"?>' type="text" />
             </label>
             <label class="input-container input-container-50">
-              Refêrencia
+              Referência
               <input name="referencia" type="text" value='<?php echo "{$array['DS_REFERENCIA']}"?>'/>
             </label>
           </div>

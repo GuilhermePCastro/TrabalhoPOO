@@ -2,9 +2,20 @@
 
 class Cliente{
 
+    //objeto com as conexões do banco
+    protected $objBanco;
+
+    public function __construct(){
+        (__DIR__);
+        include "./config/db.php";
+
+        $this->objBanco = $objBanco;
+    }
+
+    //Função que valida o CPF/CNPJ no banco
     public function validaCPF($cpf){
         //verificando CPF
-        $objSmtm = $objBanco -> prepare("SELECT NR_CPF FROM TB_CLIENTE WHERE NR_CPF = :CPF");
+        $objSmtm = $this->objBanco -> prepare("SELECT NR_CPF FROM TB_CLIENTE WHERE NR_CPF = :CPF");
         $cpfval = $cpf ?? '';
         $objSmtm -> bindparam(':CPF',$cpfval);
         $objSmtm -> execute();
@@ -13,7 +24,19 @@ class Cliente{
 
     }
 
+    //Função valida email no banco
+    public function validaEmail($email){
+        //verificando CPF
+        $objSmtm = $this->objBanco -> prepare("SELECT DS_EMAIL FROM TB_CLIENTE WHERE DS_EMAIL = :EMAIL");
+        $email = $email ?? '';
+        $objSmtm -> bindparam(':EMAIL',$email);
+        $objSmtm -> execute();
+        $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
+        return $result;
 
+    }
+
+    //Valida diigtos do CPF/CNPJ
     public function validaDigitoCPF($pessoa, $cpf){
         if($pessoa == 'F'){
             if(strlen($cpf) != 11){
@@ -26,12 +49,14 @@ class Cliente{
         }
     }
 
+    //Valida digitos do CEP
     public function validaCEP($cep){
         if(strlen($cep) != 8){
             return false;
         }
     }
 
+    //Função que inclui o registro no banco
     public function incluir(){
         //query de insert
         $queryInsert = "INSERT INTO tb_cliente (DS_FANTASIA, 
@@ -72,7 +97,7 @@ class Cliente{
                                                     :estado)";
 
         //preparando query
-        $objSmtm = $objBanco -> prepare($queryInsert);
+        $objSmtm = $this->objBanco -> prepare($queryInsert);
 
         // substituindo os valores
         $fantasia = $_POST['fantasia'] ?? '';
@@ -84,7 +109,8 @@ class Cliente{
         $pessoa = $_POST['pessoa'] ?? '';
         $objSmtm -> bindparam(':pessoa',$pessoa);
 
-        $objSmtm -> bindparam(':cpf', $cpfval );
+        $cpf = $_POST['cpf'] ?? '';
+        $objSmtm -> bindparam(':cpf', $cpf);
 
         $email = $_POST['email'] ?? '';
         $objSmtm -> bindparam(':email', $email );
@@ -126,42 +152,16 @@ class Cliente{
         $objSmtm -> bindparam(':inativo', $inativo);
 
         $return = $objSmtm -> execute();
-        $a = $objSmtm -> errorInfo();
 
         return $return;
-
-        //-------------------------------------------
-        if($return){
-
-            (__DIR__);
-            include './functions/gravalog.php';
-
-            // grava log
-            $objSmtm = $objBanco -> prepare("SELECT MAX(PK_ID) AS 'PK_ID' FROM TB_CLIENTE");
-            $objSmtm -> execute();
-            $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-
-            $ret = Gravalog(intval($result['PK_ID']), 'TB_CLIENTE', 'Incluiu', 'Cliente incluir');
-
-
-            header('Location: ../web/src/views/register-client.php');
-            $_SESSION['erro'] = false;
-            $_SESSION['msgusu'] = 'Registro salvo com sucesso!';
-            exit(); 
-        }else{
-            header('Location: ../web/src/views/register-client.php'); 
-            $_SESSION['erro'] = true;
-            $_SESSION['msgusu'] = 'Erro ao salvar cadastro, tente novamente mais tarde!';
-            exit();
-        }
     }
 
-    public function alterar(){
-        $objSmtm = $objBanco -> prepare("UPDATE TB_CLIENTE SET
+    //Função que altera o registro no banco
+    public function alterar($id){
+        $objSmtm = $this->objBanco -> prepare("UPDATE TB_CLIENTE SET
                                         DS_FANTASIA     = :fantasia,
                                         DS_RAZAO        = :razao,
                                         TG_PESSOA       = :pessoa,
-                                        NR_CPF          = :cpf,
                                         DS_EMAIL        = :email,
                                         DS_TELEFONE     = :telefone,
                                         DS_CELULAR      = :celular,
@@ -187,8 +187,6 @@ class Cliente{
 
         $pessoa = $_POST['pessoa'] ?? '';
         $objSmtm -> bindparam(':pessoa',$pessoa);
-
-        $objSmtm -> bindparam(':cpf', $cpfval );
 
         $email = $_POST['email'] ?? '';
         $objSmtm -> bindparam(':email', $email );
@@ -228,58 +226,47 @@ class Cliente{
 
         return $objSmtm -> execute();
 
-        //--------------------------------------------------------------------
-        if($objSmtm -> execute()){
-
-            (__DIR__);
-            include './functions/gravalog.php';
-
-            $ret = Gravalog(intval($id), 'TB_CLIENTE', 'Alterou', 'Cliente alterar');
-
-
-            header('Location: ./clienteconsultar.php');
-            $_SESSION['erro'] = false;
-            $_SESSION['msgusu'] = 'Registro alterado com sucesso!';
-            exit(); 
-        }else{
-            header('Location: ./clienteconsultar.php'); 
-            $_SESSION['erro'] = true;
-            $_SESSION['msgusu'] = 'Erro ao alterar o cadastro, tente novamente mais tarde!';
-            exit();
-        }
     }
 
+    //Função que consulta o registro no banco
     public function consulta($fantasia, $cpf){
+        
+        //Se não tiver filtro traz tudo
         if(!$fantasia && !$cpf){
             $query = "SELECT PK_ID, DS_FANTASIA, NR_CPF FROM TB_CLIENTE WHERE TG_INATIVO = 0";
-            $objsmtm = $objBanco -> prepare($query);
+            $objsmtm = $this->objBanco -> prepare($query);
             $objsmtm -> execute();
             $result = $objsmtm -> fetchall();
             $count = $objsmtm -> fetchall();
             include "../web/src/views/pg-clientes.php";
          
         }else{
-        
-            $fantasia  =    $fantasia ?? '';
-            $cpf       =    $cpf ?? '';
+            
+            if($fantasia === '0'){
+                $fantasia = '';
+            }
+            if($cpf === '0'){
+                $cpf = '';
+            }
+
         
             $query = "SELECT PK_ID, DS_FANTASIA, NR_CPF FROM TB_CLIENTE WHERE TG_INATIVO = 0";
         
             //Adicionando as condições para pesquisa
-            if($fantasia != ''){
+            if($fantasia !== ''){
                 $query = $query . " AND DS_FANTASIA LIKE :fantasia";
             }
-            if($cpf != ''){
+            if($cpf !== ''){
                 $query = $query . " AND NR_CPF = :cpf";
             }
         
             //Trocando as condições
-            $objSmtm = $objBanco -> prepare($query);
+            $objSmtm = $this->objBanco -> prepare($query);
             if($fantasia != ''){
                 $likefantasia = $fantasia . '%';
                 $objSmtm -> bindparam(':fantasia', $likefantasia);
             }
-            if($cpf != 0){
+            if($cpf != ''){
                 $objSmtm -> bindparam(':cpf',$cpf);
             }
         
@@ -293,9 +280,10 @@ class Cliente{
         }
     }
 
+    //Função que deleta o registro no banco
     public function deleta($id){
         $id = preg_replace('/\D/','', $id);
-        return $objBanco -> Query("DELETE FROM TB_CLIENTE WHERE PK_ID = $id");
+        return $this->objBanco -> Query("DELETE FROM TB_CLIENTE WHERE PK_ID = $id");
     }
-    
+
 }
