@@ -156,7 +156,7 @@
             </label>
             <label class="input-container input-container-25">
               Estoque mínimo
-              <input name="estoque-minimo" value='<?php echo "{$array['QT_ESTOQUEMIN']}"?>' type="number" />
+              <input name="estoque-minimo" value='<?php echo "{$array['QT_ESTOQUEMAX']}"?>' type="number" />
             </label>
             <label class="input-container input-container-25">
               Estoque atual

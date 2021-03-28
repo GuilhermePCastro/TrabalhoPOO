@@ -8,28 +8,16 @@ if($_SESSION['usersessao']['idusuario'] == 0){
     exit();
 }
 
+
 // verificando se é uma alteração   
 if(isset($_POST['pk_id'])){
-
+    
     $id = preg_replace('/\D/','', $_POST['pk_id']);
     
-   //verificando razão
-    $objSmtm = $objBanco -> prepare("SELECT PK_ID, DS_RAZAO FROM TB_CLIENTE WHERE DS_RAZAO = :RAZAO AND PK_ID <> $id");
-    $objSmtm -> bindparam(':RAZAO',$_POST['razao']);
-    $objSmtm -> execute();
-    $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-    // se cair aqui, já existe cadastrado
-    if($result){
-        header("Location: ./clientealterar.php?id=$id");
-        $_SESSION['erro'] = true;
-        $_SESSION['msgusu'] = 'Razão social já cadastrada!';
-        
-        exit();
-    }
 
     //verificando razão
     $objSmtm = $objBanco -> prepare("SELECT PK_ID, NR_CPF FROM TB_CLIENTE WHERE NR_CPF = :CPF AND PK_ID <> $id");
-    $cpfval = intval($_POST['cpf']) ?? 0;
+    $cpfval = $_POST['cpf'] ?? '';
     $objSmtm -> bindparam(':CPF',$cpfval);
     $objSmtm -> execute();
     $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
@@ -63,7 +51,7 @@ if(isset($_POST['pk_id'])){
         $_SESSION['msgusu'] = 'Número de dígitos para o CEP inválido!';
         exit();
     }
-
+    
     $objSmtm = $objBanco -> prepare("UPDATE TB_CLIENTE SET
                                         DS_FANTASIA     = :fantasia,
                                         DS_RAZAO        = :razao,

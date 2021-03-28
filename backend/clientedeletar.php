@@ -14,7 +14,6 @@ if($_SESSION['usersessao']['adm'] == 0){
 if($_GET['id']){
    
     $id = preg_replace('/\D/','', $_GET['id']);
-
     $result = $objBanco -> Query("DELETE FROM TB_CLIENTE WHERE PK_ID = $id");
 
     // retornando resultado

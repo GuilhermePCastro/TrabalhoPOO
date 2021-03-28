@@ -8,22 +8,10 @@ if($_SESSION['usersessao']['idusuario'] == 0){
     exit();
 }
 
-//verificando razão
-$objSmtm = $objBanco -> prepare("SELECT DS_RAZAO FROM TB_CLIENTE WHERE DS_RAZAO = :RAZAO");
-$objSmtm -> bindparam(':RAZAO',$_POST['razao']);
-$objSmtm -> execute();
-$result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-// se cair aqui, já existe cadastrado
-if($result){
-    header('Location: ../web/src/views/register-client.php'); 
-    $_SESSION['erro'] = true;
-    $_SESSION['msgusu'] = 'Razão social já cadastrada!';
-    exit();
-}
 
-//verificando razão
+//verificando CPF
 $objSmtm = $objBanco -> prepare("SELECT NR_CPF FROM TB_CLIENTE WHERE NR_CPF = :CPF");
-$cpfval = intval($_POST['cpf']) ?? 0;
+$cpfval = $_POST['cpf'] ?? '';
 $objSmtm -> bindparam(':CPF',$cpfval);
 $objSmtm -> execute();
 $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
@@ -103,7 +91,7 @@ $objSmtm = $objBanco -> prepare($queryInsert);
 $fantasia = $_POST['fantasia'] ?? '';
 $objSmtm -> bindparam(':fantasia',$fantasia);
 
-$razao = $_POST['fantasia'] ?? '';
+$razao = $_POST['razao'] ?? '';
 $objSmtm -> bindparam(':razao',$razao);
 
 $pessoa = $_POST['pessoa'] ?? '';
@@ -151,7 +139,6 @@ $inativo = $_POST['inativo'] == '1' ? 1 : 0;
 $objSmtm -> bindparam(':inativo', $inativo);
 
 $return = $objSmtm -> execute();
-$a = $objSmtm -> errorInfo();
 
 if($return){
 

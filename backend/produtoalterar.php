@@ -71,7 +71,7 @@ if(isset($_POST['pk_id'])){
                                         VL_CUSTO       = :VL_CUSTO,
                                         VL_VENDA       = :VL_VENDA,
                                         QT_ESTOQUEATUAL = :QT_ESTOQUEATUAL,
-                                        QT_ESTOQUEMIN   = :QT_ESTOQUEMIN,
+                                        QT_ESTOQUEMAX   = :QT_ESTOQUEMAX,
                                         TG_INATIVO      = :TG_INATIVO,
                                         FK_MARCA        = :FK_MARCA,
                                         FK_CATEGORIA    = :FK_CATEGORIA,
@@ -86,7 +86,7 @@ if(isset($_POST['pk_id'])){
     $objSmtm -> bindparam(':VL_CUSTO',$precocusto);
     $objSmtm -> bindparam(':VL_VENDA',$precovenda);
     $objSmtm -> bindparam(':QT_ESTOQUEATUAL',$estoqueatual);
-    $objSmtm -> bindparam(':QT_ESTOQUEMIN',$estoquemin);
+    $objSmtm -> bindparam(':QT_ESTOQUEMAX',$estoquemin);
     $objSmtm -> bindparam(':TG_INATIVO',$inativo);
     $objSmtm -> bindparam(':FK_CATEGORIA',$categoria);
     $objSmtm -> bindparam(':FK_MARCA',$marca);

@@ -1,12 +1,9 @@
 <?php
-session_start();
+
 include_once "./config/db.php";
 
 // validando usuário
-if($_SESSION['usersessao']['idusuario'] == 0){
-    header('Location: ./pg-login.html');
-    exit();
-}
+
 
 include "./functions/valida_user.php";
 
@@ -64,7 +61,7 @@ $queryInsert = "INSERT INTO TB_PRODUTO(DS_CODIGO,
                                         VL_CUSTO,
                                         VL_VENDA,
                                         QT_ESTOQUEATUAL,
-                                        QT_ESTOQUEMIN,
+                                        QT_ESTOQUEMAX,
                                         TG_INATIVO,
                                         DH_INCLUSAO,
                                         FK_USUCRIADOR,
@@ -76,7 +73,7 @@ $queryInsert = "INSERT INTO TB_PRODUTO(DS_CODIGO,
                                     :VL_CUSTO,
                                     :VL_VENDA,
                                     :QT_ESTOQUEATUAL,
-                                    :QT_ESTOQUEMIN,
+                                    :QT_ESTOQUEMAX,
                                     :TG_INATIVO,
                                     NOW(),
                                     :FK_USUCRIADOR,
@@ -93,7 +90,7 @@ $objSmtm -> bindparam(':DS_DESCRICAO',$descricao);
 $objSmtm -> bindparam(':VL_CUSTO',$precocusto);
 $objSmtm -> bindparam(':VL_VENDA',$precovenda);
 $objSmtm -> bindparam(':QT_ESTOQUEATUAL',$estoqueatual);
-$objSmtm -> bindparam(':QT_ESTOQUEMIN',$estoquemin);
+$objSmtm -> bindparam(':QT_ESTOQUEMAX',$estoquemin);
 $objSmtm -> bindparam(':TG_INATIVO',$inativo);
 $objSmtm -> bindparam(':FK_CATEGORIA',$categoria);
 $objSmtm -> bindparam(':FK_MARCA',$marca);

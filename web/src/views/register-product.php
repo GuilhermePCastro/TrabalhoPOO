@@ -1,4 +1,4 @@
-<?php include "../../../backend/functions/valida_user.php";?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -126,7 +126,7 @@
             </label>
             <label class="input-container input-container-25">
               Estoque mínimo
-              <input min='0' ame="estoque-minimo" type="number" />
+              <input min='0' name="estoque-minimo" type="number" />
             </label>
             <label class="input-container input-container-25">
               Estoque atual
