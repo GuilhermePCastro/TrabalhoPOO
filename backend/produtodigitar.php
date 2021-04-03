@@ -15,7 +15,7 @@ $produto = new Produto();
 $marca      = intval($_POST['marca']) ?? 0;
 $categoria  = intval($_POST['categoria']) ?? 0;
 
-
+//verificando tamanho do código
 $result = $produto->tamanhoCodigo($_POST['codigo']);
 if($result){
     
@@ -52,6 +52,7 @@ if($categoria == 0){
     exit();
 }
 
+//incluindo no banco
 $return = $produto->incluir();
 
 if($return){

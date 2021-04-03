@@ -14,7 +14,7 @@ $nome        = isset($_GET['nome']) ? $_GET['nome'] : '0';
 $categoria  = isset($_GET['categoria']) ? $_GET['categoria'] : '0';
 
 
-//Objeto de cliente
+//Objeto de produto
 (__DIR__);
 include_once "./classes/produtoClass.php";
 $produto = new Produto();

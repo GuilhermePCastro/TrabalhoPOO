@@ -2,7 +2,7 @@
 session_start();
 include_once "./config/db.php";
 
-// validando usuário
+
 // validando usuário
 if($_SESSION['usersessao']['idusuario'] == 0){
     header('Location: ./pg-login.html');
@@ -24,6 +24,7 @@ if(isset($_POST['pk_id'])){
     $categoria  = intval($_POST['categoria']) ?? 0;
 
 
+    //verificando marca
     if($marca == 0){
         header("Location: ./produtoalterar.php?id=$id");
         $_SESSION['erro'] = true;
@@ -32,6 +33,7 @@ if(isset($_POST['pk_id'])){
         
     }
     
+    //verificando categoria
     if($categoria == 0){
         header("Location: ./produtoalterar.php?id=$id");
         $_SESSION['erro'] = true;
@@ -39,11 +41,12 @@ if(isset($_POST['pk_id'])){
         exit();
     }
 
-    
+    //alterando no banco
     $return = $produto->alterar($id);
 
     if($return){
 
+        //grava log
         (__DIR__);
         include './functions/gravalog.php';
         $ret = Gravalog(intval($id), 'TB_PRODUTO', 'Alterou', 'Produto alterar');
