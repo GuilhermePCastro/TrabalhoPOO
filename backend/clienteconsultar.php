@@ -15,7 +15,7 @@ $cpf        = isset($_GET['nr_cpf']) ? $_GET['nr_cpf'] : '0';
 
 //Objeto de cliente
 (__DIR__);
-include_once "./clienteClass.php";
+include_once "./classes/clienteClass.php";
 $cliente = new Cliente();
 
 //Função que traz os registros e mostra na tela

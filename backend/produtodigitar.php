@@ -5,97 +5,54 @@ include_once "./config/db.php";
 // validando usuário
 include "./functions/valida_user.php";
 
+//classe de produtos
+(__DIR__);
+include_once "./classes/produtoClass.php";
+$produto = new Produto();
+
+
 //pegando variaveis
-$nome       = $_POST['name'];
-$codigo     = $_POST['codigo'];
 $marca      = intval($_POST['marca']) ?? 0;
 $categoria  = intval($_POST['categoria']) ?? 0;
-$precovenda = intval($_POST['preco-venda']) ?? 0;
-$precocusto = intval($_POST['preco-custo']) ?? 0;
-$estoqueatual   = intval($_POST['estoque-atual']) ?? 0;
-$estoquemin     = intval($_POST['estoque-minimo']) ?? 0;
-$descricao      = $_POST['descricao'];      
-$inativo        = $_POST['inativo'] == '1' ? 1 : 0;
 
 
-if(strlen($codigo) > 15){
-    header('Location: ../web/src/views/register-product.php'); 
+$result = $produto->tamanhoCodigo($_POST['codigo']);
+if($result){
+    
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Código tem mais caracter do que o suportado (Máx 15)!';
+    header('Location: ../web/src/views/register-product.php'); 
     exit();
 }
 
 //verificando Código
-$objSmtm = $objBanco -> prepare("SELECT PK_SKU FROM TB_PRODUTO WHERE DS_CODIGO = :CODIGO");
-$objSmtm -> bindparam(':CODIGO',$codigo);
-$objSmtm -> execute();
-$result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
+$result = $produto->validaCodigo($_POST['codigo']);
 // se cair aqui, já existe cadastrado
 if($result){
-    header('Location: ../web/src/views/register-product.php'); 
+    
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Código já cadastrado!';
+    header('Location: ../web/src/views/register-product.php'); 
     exit();
 }
 
+//verificando se tem marca
 if($marca == 0){
-    header('Location: ../web/src/views/register-product.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Marca não pode está vazia!';
+    header('Location: ../web/src/views/register-product.php'); 
     exit();
 }
 
+//verificando se tem categoria
 if($categoria == 0){
-    header('Location: ../web/src/views/register-product.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'categoria não pode está vazia!';
+    header('Location: ../web/src/views/register-product.php'); 
     exit();
 }
 
-//query de insert
-$queryInsert = "INSERT INTO TB_PRODUTO(DS_CODIGO,
-                                        DS_NOME,
-                                        DS_DESCRICAO,
-                                        VL_CUSTO,
-                                        VL_VENDA,
-                                        QT_ESTOQUEATUAL,
-                                        QT_ESTOQUEMAX,
-                                        TG_INATIVO,
-                                        DH_INCLUSAO,
-                                        FK_USUCRIADOR,
-                                        FK_MARCA,
-                                        FK_CATEGORIA)
-                            VALUES(:DS_CODIGO,
-                                    :DS_NOME,
-                                    :DS_DESCRICAO,
-                                    :VL_CUSTO,
-                                    :VL_VENDA,
-                                    :QT_ESTOQUEATUAL,
-                                    :QT_ESTOQUEMAX,
-                                    :TG_INATIVO,
-                                    NOW(),
-                                    :FK_USUCRIADOR,
-                                    :FK_MARCA,
-                                    :FK_CATEGORIA)";
-
-//preparando query
-$objSmtm = $objBanco -> prepare($queryInsert);
-
-// substituindo os valores
-$objSmtm -> bindparam(':DS_CODIGO',$codigo);
-$objSmtm -> bindparam(':DS_NOME',$nome);
-$objSmtm -> bindparam(':DS_DESCRICAO',$descricao);
-$objSmtm -> bindparam(':VL_CUSTO',$precocusto);
-$objSmtm -> bindparam(':VL_VENDA',$precovenda);
-$objSmtm -> bindparam(':QT_ESTOQUEATUAL',$estoqueatual);
-$objSmtm -> bindparam(':QT_ESTOQUEMAX',$estoquemin);
-$objSmtm -> bindparam(':TG_INATIVO',$inativo);
-$objSmtm -> bindparam(':FK_CATEGORIA',$categoria);
-$objSmtm -> bindparam(':FK_MARCA',$marca);
-$objSmtm -> bindparam(':FK_USUCRIADOR',$_SESSION['usersessao']['idusuario']);
-
-$return = $objSmtm -> execute();
-
+$return = $produto->incluir();
 
 if($return){
 
@@ -106,17 +63,17 @@ if($return){
     $objSmtm = $objBanco -> prepare("SELECT MAX(PK_SKU) AS 'PK_ID' FROM TB_PRODUTO");
     $objSmtm -> execute();
     $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-
     $ret = Gravalog(intval($result['PK_ID']), 'TB_PRODUTO', 'Incluiu', 'Produto incluir');
 
-    header('Location: ../web/src/views/register-product.php');
     $_SESSION['erro'] = false;
     $_SESSION['msgusu'] = 'Registro salvo com sucesso!';
+    header('Location: ../web/src/views/register-products.php');
     exit(); 
 }else{
-    header('Location: ../web/src/views/register-product.php');
+
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Erro ao salvar cadastro, tente novamente mais tarde!';
+    header('Location: ../web/src/views/register-product.php');
     exit();
 }
 

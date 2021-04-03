@@ -102,7 +102,7 @@
           <div class="inputs-group ">
             <label class="input-container input-container-10">
               Pessoa*
-              <select name="pessoa" id=""  required>
+              <select name="pessoa" id=""  required disabled>
                 <?php
                   if($array['TG_PESSOA'] == 'F'){
                      echo '<option value="F" selected>F</option>

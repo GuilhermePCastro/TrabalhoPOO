@@ -17,7 +17,7 @@ if(isset($_POST['pk_id'])){
 
     //Objeto de cliente
     (__DIR__);
-    include_once "./clienteClass.php";
+    include_once "./classes/clienteClass.php";
     $cliente = new Cliente();
 
     //Valida o tamanho do CEP

@@ -16,16 +16,20 @@ if($_GET['id']){
    
     $id = preg_replace('/\D/','', $_GET['id']);
 
-    $result = $objBanco -> Query("DELETE FROM TB_PRODUTO WHERE PK_SKU = $id");
+     //Objeto de cliente
+     (__DIR__);
+     include_once "./classes/produtoClass.php";
+     $produto = new Produto();
+ 
+     //Função que deleta no banco
+     $result = $produto->deleta($id);
 
     // retornando resultado
     if($result !== false){
 
         (__DIR__);
         include './functions/gravalog.php';
-
         $ret = Gravalog(intval($id), 'TB_PRODUTO', 'Deletou', 'Produto deletar');
-
 
         header('Location: ./produtoconsultar.php'); 
         $_SESSION['erro'] = false;

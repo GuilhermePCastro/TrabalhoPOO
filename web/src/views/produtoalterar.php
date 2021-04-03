@@ -96,7 +96,7 @@
             </label>
             <label class="input-container input-container-20">
               Código*
-              <input name="codigo" value='<?php echo "{$array['DS_CODIGO']}"?>' type="text" />
+              <input name="codigo" value='<?php echo "{$array['DS_CODIGO']}"?>' type="text" disabled/>
             </label>
           </div>
 

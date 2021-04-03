@@ -19,7 +19,7 @@ if($_GET['id']){
 
     //Objeto de cliente
     (__DIR__);
-    include_once "./clienteClass.php";
+    include_once "./classes/clienteClass.php";
     $cliente = new Cliente();
 
     //Função que deleta no banco

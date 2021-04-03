@@ -10,7 +10,7 @@ if($_SESSION['usersessao']['idusuario'] == 0){
 
 //Objeto de cliente
 (__DIR__);
-include_once "./clienteClass.php";
+include_once "./classes/clienteClass.php";
 $cliente = new Cliente();
 
 //Validando o CPF/CNPJ
