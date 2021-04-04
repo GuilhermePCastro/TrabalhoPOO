@@ -15,24 +15,21 @@ if($_SESSION['usersessao']['adm'] == 0){
     exit();
 }
 
+(__DIR__);
+include_once "./classes/usuarioClass.php";
+$usuario = new Usuario();
+
 
 // verificando se é uma alteração   
 if(isset($_POST['pk_id'])){
 
     $id = preg_replace('/\D/','', $_POST['pk_id']);
-    //pegando variaveis
-    $login    = $_POST['ds_login'];
-    $senha    = $_POST['ds_senha'];
-    $senhacon = $_POST['ds_senhacon'];
-    $adm      = $_POST['tg_adm'] ?? 0;
 
     
-    if($senha != $senhacon){
+    if($_POST['ds_senha'] != $_POST['ds_senhacon']){
 
         //montando o registro para alterar
-        $query = "SELECT * FROM TS_USUARIO WHERE PK_ID = $id";
-        $result = $objBanco -> query($query);
-        $array = $result -> fetch(PDO::FETCH_ASSOC);
+        $array = $usuario->montaRegistro($id);
 
         //substituindo os valores para continuar com o que foi digitado
         $array['DS_LOGIN']  = $login;
@@ -46,17 +43,11 @@ if(isset($_POST['pk_id'])){
     }
 
     //verificando login
-    $objSmtm = $objBanco -> prepare("SELECT DS_LOGIN FROM TS_USUARIO WHERE DS_LOGIN = :LOGIN AND PK_ID <> $id");
-    $objSmtm -> bindparam(':LOGIN',$login);
-    $objSmtm -> execute();
-    $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-    // se cair aqui, já existe cadastrado
+    $result = $usuario->validaLogin($_POST['ds_login'], $id);
     if($result){
         
         //montando o registro para alterar
-        $query = "SELECT * FROM TS_USUARIO WHERE PK_ID = $id";
-        $result = $objBanco -> query($query);
-        $array = $result -> fetch(PDO::FETCH_ASSOC);
+        $array = $usuario->montaRegistro($id);
 
         //substituindo os valores para continuar com o que foi digitado
          $array['DS_LOGIN']  = $login;
@@ -70,30 +61,14 @@ if(isset($_POST['pk_id'])){
         exit();
     }
 
-    //Criptografando
-    $senha = password_hash($senha,PASSWORD_DEFAULT);
-
-
-    $objSmtm = $objBanco -> prepare("UPDATE TS_USUARIO SET
-                                        DS_LOGIN = :DS_LOGIN, 
-                                        DS_SENHA = :DS_SENHA, 
-                                        TG_ADM   = :TG_ADM,
-                                      DH_ALTERACAO = now()
-                                    WHERE
-                                        PK_ID = $id");
-
-    $objSmtm -> bindParam(':DS_LOGIN',$login);
-    $objSmtm -> bindParam(':DS_SENHA',$senha);
-    $objSmtm -> bindParam(':TG_ADM',$adm);
+    $return = $usuario->alterar($id);
     
-    
-    if($objSmtm -> execute()){
+    if($return){
 
         (__DIR__);
         include './functions/gravalog.php';
 
         $ret = Gravalog(intval($id), 'TS_USUARIO', 'Alterou', 'Usuário alterar');
-
 
         header('Location: ./usuarioconsultar.php');
         $_SESSION['erro'] = false;

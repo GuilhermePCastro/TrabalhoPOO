@@ -2,6 +2,10 @@
 session_start();
 include_once "./config/db.php";
 
+(__DIR__);
+include_once "./classes/usuarioClass.php";
+$usuario = new Usuario();
+
 $_GET['id'] = $_GET['id'] ?? false;
 
 if($_SESSION['usersessao']['adm'] == 0){
@@ -23,7 +27,7 @@ if($_GET['id']){
    
     $id = preg_replace('/\D/','', $_GET['id']);
 
-    $result = $objBanco -> Query("DELETE FROM TS_USUARIO WHERE PK_ID = $id");
+    $result = $usuario->deletar($id);
 
     // retornando resultado
     if($result !== false){

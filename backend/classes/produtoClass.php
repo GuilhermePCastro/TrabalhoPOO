@@ -136,6 +136,7 @@ class Produto{
         
         //Se não tiver filtro traz tudo
         if(!$codigo && !$nome && !$categoria){
+            
             $query = "SELECT 
                             PRO.PK_SKU, 
                             PRO.DS_CODIGO, 

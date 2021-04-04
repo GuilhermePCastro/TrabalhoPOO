@@ -68,7 +68,7 @@ if($return){
 
     $_SESSION['erro'] = false;
     $_SESSION['msgusu'] = 'Registro salvo com sucesso!';
-    header('Location: ../web/src/views/register-products.php');
+    header('Location: ../web/src/views/register-product.php');
     exit(); 
 }else{
 

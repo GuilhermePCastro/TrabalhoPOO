@@ -68,22 +68,22 @@
           <h1 class="page-title mb">Produtos</h1>
         </div>
         <?php 
-               $_SESSION['erro'] = $_SESSION['erro'] ?? '';
-               $_SESSION['msgusu'] = $_SESSION['msgusu'] ?? '';
-                 if($_SESSION['erro']){
-                     echo '  <div class="invalido">
-                                 <p> '. $_SESSION["msgusu"] .'</p>
-                             </div>';
-                             $_SESSION['msgusu'] = '';
-                             $_SESSION['erro']   = '';
-                 }else{
-                     echo  '  <div class="valido">
-                                 <p> ' . $_SESSION["msgusu"] . '</p>
-                             </div>';
-                             $_SESSION['msgusu'] = '';
-                             $_SESSION['erro']   = '';
-               };  
-            ?>
+              $_SESSION['erro'] = $_SESSION['erro'] ?? '';
+              $_SESSION['msgusu'] = $_SESSION['msgusu'] ?? '';
+                if($_SESSION['erro']){
+                    echo '  <div class="invalido">
+                                <p> '. $_SESSION["msgusu"] .'</p>
+                            </div>';
+                            $_SESSION['msgusu'] = '';
+                            $_SESSION['erro']   = '';
+                }else{
+                    echo  '  <div class="valido">
+                                <p> ' . $_SESSION["msgusu"] . '</p>
+                            </div>';
+                            $_SESSION['msgusu'] = '';
+                            $_SESSION['erro']   = '';
+              };  
+        ?>
         <form class="page-content__inputs mb" method='POST' action='../../../backend/produtodigitar.php'>
           <div class="inputs-group mb">
             <label class="input-container input-container-80">

@@ -1,27 +1,17 @@
 <?php
-session_start();
 include_once "./config/db.php";
 
 
 // validando usuário
-if($_SESSION['usersessao']['idusuario'] == 0){
-    header('Location: ./pg-login.html');
-    exit();
-}
-
-
-
 include "./functions/valida_user.php";
 
-//pegando variaveis
-$login    = $_POST['ds_login'];
-$email    = $_POST['ds_email'];
-$senha    = $_POST['ds_senha'];
-$senhacon = $_POST['ds_senhacon'];
-$adm      = $_POST['tg_adm'] == '1' ? 1 : 0;
+
+(__DIR__);
+include_once "./classes/usuarioClass.php";
+$usuario = new Usuario();
 
 
-if($senha != $senhacon){
+if($_POST['ds_senha'] != $_POST['ds_senhacon']){
     header('Location: ../web/src/views/usuario.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'As senhas não são iguais!';
@@ -29,11 +19,7 @@ if($senha != $senhacon){
 }
 
 //verificando login
-$objSmtm = $objBanco -> prepare("SELECT DS_LOGIN FROM TS_USUARIO WHERE DS_LOGIN = :LOGIN");
-$objSmtm -> bindparam(':LOGIN',$login);
-$objSmtm -> execute();
-$result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-// se cair aqui, já existe cadastrado
+$result = $usuario->validaLogin($_POST['ds_login'], 0);
 if($result){
     header('Location: ../web/src/views/usuario.php'); 
     $_SESSION['erro'] = true;
@@ -41,14 +27,8 @@ if($result){
     exit();
 }
 
-
 //verificando email
-$objSmtm = $objBanco -> prepare("SELECT DS_EMAIL FROM TS_USUARIO WHERE DS_EMAIL = :EMAIL");
-$objSmtm -> bindparam(':EMAIL',$email );
-$objSmtm -> execute();
-$result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-
-// se cair aqui, já existe cadastrado
+$result = $usuario->validaEmail($_POST['ds_email']);
 if($result){
     header('Location: ../web/src/views/usuario.php'); 
     $_SESSION['erro'] = true;
@@ -56,25 +36,7 @@ if($result){
     exit();
 }
 
-//Criptografando
-$senha = password_hash($senha,PASSWORD_DEFAULT);
-
-//query de insert
-$queryInsert = "insert into ts_usuario (DS_LOGIN, DS_EMAIL, DS_SENHA, TG_ADM, DH_INCLUSAO, FK_USUCRIADOR) 
-                                        values (:ds_login, :ds_email,  :ds_senha, :tg_adm, now(), :fk_usucriador)";
-
-//preparando query
-$objSmtm = $objBanco -> prepare($queryInsert);
-
-// substituindo os valores
-$objSmtm -> bindparam(':ds_login',$login);
-$objSmtm -> bindparam(':ds_email',$email);
-$objSmtm -> bindparam(':ds_senha',$senha);
-$objSmtm -> bindparam(':tg_adm',$adm);
-$objSmtm -> bindparam(':fk_usucriador',$_SESSION['usersessao']['idusuario']);
-
-$return = $objSmtm -> execute();
-
+$return = $usuario->incluir();
 
 if($return){
     (__DIR__);
