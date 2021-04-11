@@ -1,11 +1,11 @@
 <?php 
 session_start();
-include_once "./config/db.php";
+include_once "./../../config/db.php";
 
 // validando usuário
 // validando usuário
 if($_SESSION['usersessao']['idusuario'] == 0){
-    header('Location: ./pg-login.html');
+    header('Location: ./../../pg-login.html');
     exit();
 }
 
@@ -17,4 +17,4 @@ $result = $objBanco -> query($query);
 
 $array = $result -> fetch(PDO::FETCH_ASSOC);
 
-include "../web/src/views/visualize-logs.php";
+include "../../../web/src/views/visualize-logs.php";

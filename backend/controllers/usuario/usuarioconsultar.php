@@ -1,15 +1,15 @@
 <?php
 session_start();
-include_once "../backend/config/db.php";
+include_once "../../../backend/config/db.php";
 
 // Se não tem sessão, volta para o login
 if(!$_SESSION['usersessao']){
-    header('Location: ../web/src/views/pg-login.html');
+    header('Location: ../../../web/src/views/pg-login.html');
     exit();
 }
 
 (__DIR__);
-include_once "./classes/usuarioClass.php";
+include_once "./../../classes/usuarioClass.php";
 $usuario = new Usuario();
 
 // Listar registros

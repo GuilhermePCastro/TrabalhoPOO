@@ -1,22 +1,22 @@
 <?php 
 session_start();
-include_once "./config/db.php";
+include_once "./../../config/db.php";
 
 // validando usuário
 if($_SESSION['usersessao']['idusuario'] == 0){
-    header('Location: ./pg-login.html');
+    header('Location: ./../../pg-login.html');
     exit();
 }
 
 if($_SESSION['usersessao']['adm'] == 0){
-    header('Location: ./usuarioconsultar.php'); 
+    header('Location: ./../../usuarioconsultar.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Você não tem permissão para alterar usuários!';
     exit();
 }
 
 (__DIR__);
-include_once "./classes/usuarioClass.php";
+include_once "./../../classes/usuarioClass.php";
 $usuario = new Usuario();
 
 
@@ -38,7 +38,7 @@ if(isset($_POST['pk_id'])){
         //passando para a tela
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'As senhas não são iguais!';
-        include "../web/src/views/usuarioalterar.php";
+        include "../../../web/src/views/usuarioalterar.php";
         exit();
     }
 
@@ -56,7 +56,7 @@ if(isset($_POST['pk_id'])){
         //passando para a tela
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Login já cadastrado!';
-        include "../web/src/views/usuarioalterar.php";
+        include "../../../web/src/views/usuarioalterar.php";
         
         exit();
     }
@@ -66,16 +66,16 @@ if(isset($_POST['pk_id'])){
     if($return){
 
         (__DIR__);
-        include './functions/gravalog.php';
+        include './../../functions/gravalog.php';
 
         $ret = Gravalog(intval($id), 'TS_USUARIO', 'Alterou', 'Usuário alterar');
 
-        header('Location: ./usuarioconsultar.php');
+        header('Location: ./../../usuarioconsultar.php');
         $_SESSION['erro'] = false;
         $_SESSION['msgusu'] = 'Registro alterado com sucesso!';
         exit(); 
     }else{
-        header('Location: ./usuarioconsultar.php'); 
+        header('Location: ./../../usuarioconsultar.php'); 
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Erro ao alterar o cadastro, tente novamente mais tarde!';
         exit();
@@ -88,5 +88,5 @@ if(isset($_POST['pk_id'])){
     $result = $objBanco -> query($query);
     $array = $result -> fetch(PDO::FETCH_ASSOC);
 
-    include "../web/src/views/usuarioalterar.php";
+    include "../../../web/src/views/usuarioalterar.php";
 }

@@ -3,7 +3,7 @@
 
 include "../../../backend/functions/valida_user.php";
 if($_SESSION['usersessao']['adm'] == 0){
-  header('Location: ../../../backend/usuarioconsultar.php'); 
+  header('Location: ../../../backend/controllers/usuario/usuarioconsultar.php'); 
   $_SESSION['erro'] = true;
   $_SESSION['msgusu'] = 'Você não tem permissão para incluir usuários!';
   exit();
@@ -38,13 +38,13 @@ if($_SESSION['usersessao']['adm'] == 0){
                 </span>
                 <ul class="item__subnav">
                   <li class="subnav__item">
-                    <a class="item__link" href="../../../backend/clienteconsultar.php">Clientes</a>
+                    <a class="item__link" href="../../../backend/controllers/cliente/clienteconsultar.php">Clientes</a>
                   </li>
                   <li class="subnav__item">
-                    <a class="item__link" href="../../../backend/produtoconsultar.php">Produtos</a>
+                    <a class="item__link" href="../../../backend/controllers/produto/produtoconsultar.php">Produtos</a>
                   </li>
                   <li class="subnav__item">
-                    <a class="item__link" href="../../../backend/usuarioconsultar.php">Usuários</a>
+                    <a class="item__link" href="../../../backend/controllers/usuario/usuarioconsultar.php">Usuários</a>
                   </li>
                 </ul>
               </li>
@@ -59,7 +59,7 @@ if($_SESSION['usersessao']['adm'] == 0){
                 </span>
                 <ul class="item__subnav">
                   <li class="subnav__item">
-                    <a class="item__link" href="../../../backend/logsconsultar.php">Logs</a>
+                    <a class="item__link" href="../../../backend/controllers/logs/logsconsultar.php">Logs</a>
                   </li>
                   <li class="subnav__item">
                     <a class="item__link" href="../../../backend/functions/logout.php">Logout</a>
@@ -92,7 +92,7 @@ if($_SESSION['usersessao']['adm'] == 0){
                 };  
             ?>
             
-            <form method="POST" action="../../../backend/usuariodigitar.php">
+            <form method="POST" action="../../../backend/controllers/usuario/usuariodigitar.php">
             <div class="form">
                     <div class=" input">
                         <label class=" d-block" for="usuario" >Login*</label>

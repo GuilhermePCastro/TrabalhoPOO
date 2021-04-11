@@ -30,13 +30,13 @@
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="../backend/clienteconsultar.php">Clientes</a>
+                <a class="item__link" href="../backend/controllers/cliente/clienteconsultar.php">Clientes</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="../backend/produtoconsultar.php">Produtos</a>
+                <a class="item__link" href="../backend/controllers/produto/produtoconsultar.php">Produtos</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="../backend/usuarioconsultar.php">Usuários</a>
+                <a class="item__link" href="../backend/controllers/usuario/usuarioconsultar.php">Usuários</a>
               </li>
             </ul>
           </li>
@@ -51,7 +51,7 @@
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="../backend/logsconsultar.php">Logs</a>
+                <a class="item__link" href="../backend/controllers/logs/logsconsultar.php">Logs</a>
               </li>
               <li class="subnav__item">
                 <a class="item__link" href="../backend/functions/logout.php">Logout</a>
@@ -84,7 +84,7 @@
                 };  
             ?>
             
-            <form method="POST" action="../backend/usuarioalterar.php">
+            <form method="POST" action="../backend/controllers/usuario/usuarioalterar.php">
             <div class="form">
                     <div class=" input">
                         <label class=" d-block" for="usuario" >Login*</label>

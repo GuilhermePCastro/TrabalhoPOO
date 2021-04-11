@@ -28,13 +28,13 @@
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="./clienteconsultar.php">Clientes</a>
+                <a class="item__link" href="./controllers/cliente/clienteconsultar.php">Clientes</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="./produtoconsultar.php">Produtos</a>
+                <a class="item__link" href="./controllers/produto/produtoconsultar.php">Produtos</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="./usuarioconsultar.php">Usuários</a>
+                <a class="item__link" href="./controllers/usuario/usuarioconsultar.php">Usuários</a>
               </li>
             </ul>
           </li>
@@ -49,7 +49,7 @@
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="./logsconsultar.php">Logs</a>
+                <a class="item__link" href="./controllers/logs/logsconsultar.php">Logs</a>
               </li>
               <li class="subnav__item">
                 <a class="item__link" href="../backend/functions/logout.php">Logout</a>
@@ -116,7 +116,7 @@
                       <td>{$reg['DS_ACAO']}</td>
                       <td>{$reg['DC_ACAO']}</td>
                       <td width='390'>
-                        <a href='../backend/logsvizualizar.php?id={$reg['PK_ID']}'>
+                        <a href='../backend/controllers/logs/logsvizualizar.php?id={$reg['PK_ID']}'>
                         <button class='table__button table__edit' type='button'>
                             <img src='../web/src/assets/svgs/eye.svg' alt='editar'>
                             Visualizar

@@ -28,13 +28,13 @@
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="./clienteconsultar.php">Clientes</a>
+                <a class="item__link" href="./controllers/cliente/clienteconsultar.php">Clientes</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="./produtoconsultar.php">Produtos</a>
+                <a class="item__link" href="./controllers/produto/produtoconsultar.php">Produtos</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="./usuarioconsultar.php">Usuários</a>
+                <a class="item__link" href="./controllers/usuario/usuarioconsultar.php">Usuários</a>
               </li>
             </ul>
           </li>
@@ -49,7 +49,7 @@
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="./logsconsultar.php">Logs</a>
+                <a class="item__link" href="./controllers/logs/logsconsultar.php">Logs</a>
               </li>
               <li class="subnav__item">
                 <a class="item__link" href="../backend/functions/logout.php">Logout</a>
@@ -89,7 +89,7 @@
           };  
       ?>
 
-      <form class="page-content__inputs" method='GET' action='../backend/clienteconsultar.php'>
+      <form class="page-content__inputs" method='GET' action='../backend/controllers/cliente/clienteconsultar.php'>
         <label class="input-container inputs__login" name='ds_fantasia'>
           Fantasia
           <input type="text" class="input-container__input"  name='ds_fantasia'>
@@ -118,13 +118,13 @@
                       <td>{$reg['DS_FANTASIA']}</td>
                       <td>{$reg['NR_CPF']}</td>
                       <td width='390'>
-                        <a href='../backend/clientealterar.php?id={$reg['PK_ID']}'>
+                        <a href='../backend/controllers/cliente/clientealterar.php?id={$reg['PK_ID']}'>
                           <button class='table__button table__edit' type='button'>
                             <img src='../web/src/assets/svgs/edit-icon.svg' alt='editar'>
                             Alterar
                           </button>
                         </a>
-                        <a href='../backend/clientedeletar.php?id={$reg['PK_ID']}'>
+                        <a href='../backend/controllers/cliente/clientedeletar.php?id={$reg['PK_ID']}'>
                           <button class='table__button table__remove' type='button'>
                             <img src='../web/src/assets/svgs/trash-icon.svg' alt='remover'>
                             Excluir

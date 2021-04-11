@@ -1,6 +1,6 @@
 <?php 
 session_start();
-include_once "./config/db.php";
+include_once "./../../config/db.php";
 
 // validando usuário
 if($_SESSION['usersessao']['idusuario'] == 0){
@@ -17,7 +17,7 @@ if(isset($_POST['pk_id'])){
 
     //Objeto de cliente
     (__DIR__);
-    include_once "./classes/clienteClass.php";
+    include_once "./../../classes/clienteClass.php";
     $cliente = new Cliente();
 
     //Valida o tamanho do CEP
@@ -35,7 +35,7 @@ if(isset($_POST['pk_id'])){
 
         //Grava o Log
         (__DIR__);
-        include './functions/gravalog.php';
+        include './../../functions/gravalog.php';
         $ret = Gravalog(intval($id), 'TB_CLIENTE', 'Alterou', 'Cliente alterar');
 
         //Retorna o sucesso
@@ -65,5 +65,5 @@ if(isset($_POST['pk_id'])){
     $resultES = $objBanco -> query($queryES);
     $arrayES = $resultES -> fetch(PDO::FETCH_ASSOC);
 
-    include "../web/src/views/clientealterar.php";
+    include "../../../web/src/views/clientealterar.php";
 }

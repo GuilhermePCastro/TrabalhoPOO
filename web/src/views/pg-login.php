@@ -27,7 +27,7 @@
                 <div class="invalido">
                     <p>Login ou senha inválidos!</p>
                 </div>
-                <form class=" form" method="POST" action="../../../backend/login.php">
+                <form class=" form" method="POST" action="../../../backend/controllers/sistema/login.php">
                     <fieldset>
                         <div class=" input">
                             <label class=" d-block" for="usuario">Login</label>

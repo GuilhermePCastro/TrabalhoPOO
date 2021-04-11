@@ -28,13 +28,13 @@
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="./clienteconsultar.php">Clientes</a>
+                <a class="item__link" href="./controllers/cliente/clienteconsultar.php">Clientes</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="./produtoconsultar.php">Produtos</a>
+                <a class="item__link" href="./controllers/produto/produtoconsultar.php">Produtos</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="./usuarioconsultar.php">Usuários</a>
+                <a class="item__link" href="./controllers/usuario/usuarioconsultar.php">Usuários</a>
               </li>
             </ul>
           </li>
@@ -49,7 +49,7 @@
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="./logsconsultar.php">Logs</a>
+                <a class="item__link" href="./controllers/logs/logsconsultar.php">Logs</a>
               </li>
               <li class="subnav__item">
                 <a class="item__link" href="../backend/functions/logout.php">Logout</a>
@@ -124,13 +124,13 @@
                       <td>{$reg['DS_NOME']}</td>
                       <td>{$reg['DS_CATEGORIA']}</td>
                       <td width='390'>
-                        <a href='../backend/produtoalterar.php?id={$reg['PK_SKU']}'>
+                        <a href='../backend/controllers/produto/produtoalterar.php?id={$reg['PK_SKU']}'>
                           <button class='table__button table__edit' type='button'>
                             <img src='../web/src/assets/svgs/edit-icon.svg' alt='editar'>
                             Alterar
                           </button>
                         </a>
-                        <a href='../backend/produtodeletar.php?id={$reg['PK_SKU']}&cod={$reg['DS_CODIGO']}'>
+                        <a href='../backend/controllers/produto/produtodeletar.php?id={$reg['PK_SKU']}&cod={$reg['DS_CODIGO']}'>
                           <button class='table__button table__remove' type='button'>
                             <img src='../web/src/assets/svgs/trash-icon.svg' alt='remover'>
                             Excluir

@@ -1,13 +1,13 @@
 <?php
 
-include_once "./config/db.php";
+include_once "./../../config/db.php";
 
 // validando usuário
-include "./functions/valida_user.php";
+include "./../../functions/valida_user.php";
 
 //classe de produtos
 (__DIR__);
-include_once "./classes/produtoClass.php";
+include_once "./../../classes/produtoClass.php";
 $produto = new Produto();
 
 
@@ -21,7 +21,7 @@ if($result){
     
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Código tem mais caracter do que o suportado (Máx 15)!';
-    header('Location: ../web/src/views/register-product.php'); 
+    header('Location: ../../../web/src/views/register-product.php'); 
     exit();
 }
 
@@ -32,7 +32,7 @@ if($result){
     
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Código já cadastrado!';
-    header('Location: ../web/src/views/register-product.php'); 
+    header('Location: ../../../web/src/views/register-product.php'); 
     exit();
 }
 
@@ -40,7 +40,7 @@ if($result){
 if($marca == 0){
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Marca não pode está vazia!';
-    header('Location: ../web/src/views/register-product.php'); 
+    header('Location: ../../../web/src/views/register-product.php'); 
     exit();
 }
 
@@ -48,7 +48,7 @@ if($marca == 0){
 if($categoria == 0){
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'categoria não pode está vazia!';
-    header('Location: ../web/src/views/register-product.php'); 
+    header('Location: ../../../web/src/views/register-product.php'); 
     exit();
 }
 
@@ -58,7 +58,7 @@ $return = $produto->incluir();
 if($return){
 
     (__DIR__);
-    include './functions/gravalog.php';
+    include './../../functions/gravalog.php';
 
     // grava log
     $objSmtm = $objBanco -> prepare("SELECT MAX(PK_SKU) AS 'PK_ID' FROM TB_PRODUTO");
@@ -68,13 +68,13 @@ if($return){
 
     $_SESSION['erro'] = false;
     $_SESSION['msgusu'] = 'Registro salvo com sucesso!';
-    header('Location: ../web/src/views/register-product.php');
+    header('Location: ../../../web/src/views/register-product.php');
     exit(); 
 }else{
 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Erro ao salvar cadastro, tente novamente mais tarde!';
-    header('Location: ../web/src/views/register-product.php');
+    header('Location: ../../../web/src/views/register-product.php');
     exit();
 }
 

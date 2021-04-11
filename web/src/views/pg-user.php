@@ -31,13 +31,13 @@ include "../backend/config/db.php";
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="./clienteconsultar.php">Clientes</a>
+                <a class="item__link" href="./controllers/cliente/clienteconsultar.php">Clientes</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="./produtoconsultar.php">Produtos</a>
+                <a class="item__link" href="./controllers/produto/produtoconsultar.php">Produtos</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="./usuarioconsultar.php">Usuários</a>
+                <a class="item__link" href="./controllers/usuario/usuarioconsultar.php">Usuários</a>
               </li>
             </ul>
           </li>
@@ -52,7 +52,7 @@ include "../backend/config/db.php";
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="./logsconsultar.php">Logs</a>
+                <a class="item__link" href="./controllers/logs/logsconsultar.php">Logs</a>
               </li>
               <li class="subnav__item">
                 <a class="item__link" href="../backend/functions/logout.php">Logout</a>

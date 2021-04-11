@@ -1,11 +1,11 @@
 <?php
 session_start();
-include_once "./config/db.php";
+include_once "./../../config/db.php";
 
 
 //verificando se o usuário tentou entrar sem credênciais 
 if(empty($_POST['login']) || empty($_POST['senha'])){
-    header('Location: ../web/src/views/pg-login.html');
+    header('Location: ../../../web/src/views/pg-login.html');
     exit();
 }
 
@@ -26,10 +26,10 @@ if(password_verify($_POST['senha'], $result['DS_SENHA'])){
                                     'idusuario' => preg_replace('/\D/','', $result['PK_ID']), 
                                     'emailusuario' => $result['DS_EMAIL'], 
                                     'adm' => preg_replace('/\D/','', $result['TG_ADM']));
-    header('Location: ../web/src/views/welcome.php');
+    header('Location: ../../..//src/views/welcome.php');
     exit();
 }else{
     $_SESSION['idusuario'] = 0;
-    header('Location: ../web/src/views/pg-login.php');
+    header('Location: ../../../web/src/views/pg-login.php');
     exit();
 }

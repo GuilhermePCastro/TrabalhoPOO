@@ -1,11 +1,11 @@
 <?php 
 session_start();
-include_once "./config/db.php";
+include_once "./../../config/db.php";
 
 
 // validando usuário
 if($_SESSION['usersessao']['idusuario'] == 0){
-    header('Location: ./pg-login.html');
+    header('Location: ./../../pg-login.html');
     exit();
 }
 
@@ -16,7 +16,7 @@ if(isset($_POST['pk_id'])){
     
     //Objeto de produto
     (__DIR__);
-    include_once "./classes/produtoClass.php";
+    include_once "./../../classes/produtoClass.php";
     $produto = new Produto();
 
     //pegando variaveis
@@ -26,7 +26,7 @@ if(isset($_POST['pk_id'])){
 
     //verificando marca
     if($marca == 0){
-        header("Location: ./produtoalterar.php?id=$id");
+        header("Location: ./../../produtoalterar.php?id=$id");
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Marca não pode está vazia!';
         exit();
@@ -35,7 +35,7 @@ if(isset($_POST['pk_id'])){
     
     //verificando categoria
     if($categoria == 0){
-        header("Location: ./produtoalterar.php?id=$id");
+        header("Location: ./../../produtoalterar.php?id=$id");
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'categoria não pode está vazia!';
         exit();
@@ -48,16 +48,16 @@ if(isset($_POST['pk_id'])){
 
         //grava log
         (__DIR__);
-        include './functions/gravalog.php';
+        include './../../functions/gravalog.php';
         $ret = Gravalog(intval($id), 'TB_PRODUTO', 'Alterou', 'Produto alterar');
 
 
-        header('Location: ./produtoconsultar.php');
+        header('Location: ./../../produtoconsultar.php');
         $_SESSION['erro'] = false;
         $_SESSION['msgusu'] = 'Registro alterado com sucesso!';
         exit(); 
     }else{
-        header('Location: ./produtoconsultar.php'); 
+        header('Location: ./../../produtoconsultar.php'); 
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Erro ao alterar o cadastro, tente novamente mais tarde!';
         exit();
@@ -78,5 +78,5 @@ if(isset($_POST['pk_id'])){
     $resultMA = $objBanco -> query($queryMA);
     $arrayMA = $resultMA -> fetch(PDO::FETCH_ASSOC);
 
-    include "../web/src/views/produtoalterar.php";
+    include "../../../web/src/views/produtoalterar.php";
 }
