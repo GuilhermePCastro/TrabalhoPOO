@@ -7,7 +7,7 @@ class Produto{
 
     public function __construct(){
         (__DIR__);
-        include "./config/db.php";
+        include "./../../config/db.php";
 
         $this->objBanco = $objBanco;
     } 
@@ -151,7 +151,7 @@ class Produto{
             $objsmtm -> execute();
             $result = $objsmtm -> fetchall();
             $count = $objsmtm -> fetchall();
-            include "../web/src/views/pg-products.php";
+            include "../../../web/src/views/pg-products.php";
          
         }else{
             
@@ -207,7 +207,7 @@ class Produto{
             $result = $objSmtm -> fetchall();
             $count = $objSmtm -> fetchall();
         
-            include "../web/src/views/pg-products.php";
+            include "../../../web/src/views/pg-products.php";
         }
         
     }

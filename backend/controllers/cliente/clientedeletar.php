@@ -6,7 +6,7 @@ $_GET['id'] = $_GET['id'] ?? false;
 
 //Verificando se o usuário tem permissão
 if($_SESSION['usersessao']['adm'] == 0){
-    header('Location: ./../../usuarioconsultar.php'); 
+    header('Location: ./clienteconsultar.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Seu usuário não tem permissão para essa ação!';
     exit();
@@ -34,13 +34,13 @@ if($_GET['id']){
         $ret = Gravalog(intval($id), 'TB_CLIENTE', 'Deletou', 'Cliente deletar');
 
         //Retorna o Sucesso
-        header('Location: ./../../clienteconsultar.php'); 
+        header('Location: ./clienteconsultar.php'); 
         $_SESSION['erro'] = false;
         $_SESSION['msgusu'] = "Cliente $id deletado com sucesso!";
         exit();
     }else{
         //Retorna o erro
-        header('Location: ./../../clienteconsultar.php'); 
+        header('Location: ./clienteconsultar.php'); 
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Erro ao deletar o registro, tente novamente mais tarde!';
         exit();
@@ -48,7 +48,7 @@ if($_GET['id']){
 }else{
 
     //Retorna o erro
-    header('Location: ./../../clienteconsultar.php'); 
+    header('Location: ./clienteconsultar.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Erro ao deletar o registro, tente novamente mais tarde!';
     exit();

@@ -70,12 +70,12 @@ if(isset($_POST['pk_id'])){
 
         $ret = Gravalog(intval($id), 'TS_USUARIO', 'Alterou', 'Usuário alterar');
 
-        header('Location: ./../../usuarioconsultar.php');
+        header('Location: ./usuarioconsultar.php');
         $_SESSION['erro'] = false;
         $_SESSION['msgusu'] = 'Registro alterado com sucesso!';
         exit(); 
     }else{
-        header('Location: ./../../usuarioconsultar.php'); 
+        header('Location: ./usuarioconsultar.php'); 
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Erro ao alterar o cadastro, tente novamente mais tarde!';
         exit();

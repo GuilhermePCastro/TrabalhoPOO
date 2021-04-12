@@ -26,7 +26,7 @@ if(isset($_POST['pk_id'])){
 
     //verificando marca
     if($marca == 0){
-        header("Location: ./../../produtoalterar.php?id=$id");
+        header("Location: ./../../controllers/produto/produtoalterar.php?id=$id");
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Marca não pode está vazia!';
         exit();
@@ -35,7 +35,7 @@ if(isset($_POST['pk_id'])){
     
     //verificando categoria
     if($categoria == 0){
-        header("Location: ./../../produtoalterar.php?id=$id");
+        header("Location: ./../../controllers/produto/produtoalterar.php?id=$id");
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'categoria não pode está vazia!';
         exit();
@@ -52,12 +52,12 @@ if(isset($_POST['pk_id'])){
         $ret = Gravalog(intval($id), 'TB_PRODUTO', 'Alterou', 'Produto alterar');
 
 
-        header('Location: ./../../produtoconsultar.php');
+        header('Location: ./../../controllers/produto/produtoconsultar.php');
         $_SESSION['erro'] = false;
         $_SESSION['msgusu'] = 'Registro alterado com sucesso!';
         exit(); 
     }else{
-        header('Location: ./../../produtoconsultar.php'); 
+        header('Location: ./../../controllers/produto/produtoconsultar.php'); 
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Erro ao alterar o cadastro, tente novamente mais tarde!';
         exit();

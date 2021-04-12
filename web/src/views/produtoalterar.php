@@ -5,11 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registro de produto</title>
-    <script src="../web/src/assets/js/menu.js"></script>
-    <link rel="stylesheet" href="../web/src/assets/styles/css/menu.css" />
-    <link rel="stylesheet" href="../web/src/assets/styles/css/header.css" />
-    <link rel="stylesheet" href="../web/src/assets/styles/css/main.css" />
-    <link rel="stylesheet" href="../web/src/assets/styles/css/register-client.css">
+    <script src="../../../web/src/assets/js/menu.js"></script>
+    <link rel="stylesheet" href="../../../web/src/assets/styles/css/menu.css" />
+    <link rel="stylesheet" href="../../../web/src/assets/styles/css/header.css" />
+    <link rel="stylesheet" href="../../../web/src/assets/styles/css/main.css" />
+    <link rel="stylesheet" href="../../../web/src/assets/styles/css/register-client.css">
     <link
       href="https://fonts.googleapis.com/css2?family=Rhodium+Libre&display=swap"
       rel="stylesheet"
@@ -28,19 +28,19 @@
               Cadastros
               <img
                 class="title__icon"
-                src="../web/src/assets/svgs/arrow-down.svg"
+                src="../../../web/src/assets/svgs/arrow-down.svg"
                 alt="arrow down"
               />
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="../backend/controllers/cliente/clienteconsultar.php">Clientes</a>
+                <a class="item__link" href="../../../backend/controllers/cliente/clienteconsultar.php">Clientes</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="../backend/controllers/produto/produtoconsultar.php">Produtos</a>
+                <a class="item__link" href="../../../backend/controllers/produto/produtoconsultar.php">Produtos</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="../backend/controllers/usuario/usuarioconsultar.php">Usuários</a>
+                <a class="item__link" href="../../../backend/controllers/usuario/usuarioconsultar.php">Usuários</a>
               </li>
             </ul>
           </li>
@@ -49,22 +49,22 @@
               Mais
               <img
                 class="title__icon"
-                src="../web/src/assets/svgs/arrow-down.svg"
+                src="../../../web/src/assets/svgs/arrow-down.svg"
                 alt="arrow down"
               />
             </span>
             <ul class="item__subnav">
               <li class="subnav__item">
-                <a class="item__link" href="../backend/controllers/logs/logsconsultar.php">Logs</a>
+                <a class="item__link" href="../../../backend/controllers/logs/logsconsultar.php">Logs</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="../backend/functions/logout.php">Logout</a>
+                <a class="item__link" href="../../../backend/functions/logout.php">Logout</a>
               </li>
             </ul>
           </li>
         </ul>
-        <a href="../web/src/views/welcome.php">
-          <img src="../web/src/assets/images/logo.png" alt="netuno" />
+        <a href="../../../web/src/views/welcome.php">
+          <img src="../../../web/src/assets/images/logo.png" alt="netuno" />
         </a>
       </nav>
       <section class="main__page-content right-container">
@@ -88,7 +88,7 @@
                             $_SESSION['erro']   = '';
               };  
         ?>
-        <form class="page-content__inputs mb" method='POST' action='../backend/controllers/produto/produtoalterar.php'>
+        <form class="page-content__inputs mb" method='POST' action='../../../backend/controllers/produto/produtoalterar.php'>
           <div class="inputs-group mb">
             <label class="input-container input-container-80">
               Nome do produto*

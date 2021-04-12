@@ -6,7 +6,7 @@ $_GET['id'] = $_GET['id'] ?? false;
 $cod = $_GET['cod'] ?? '';
 
 if($_SESSION['usersessao']['adm'] == 0){
-    header('Location: ./../../produtoconsultar.php'); 
+    header('Location: ./produtoconsultar.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Seu usuário não tem permissão para essa ação!';
     exit();
@@ -31,19 +31,19 @@ if($_GET['id']){
         include './../../functions/gravalog.php';
         $ret = Gravalog(intval($id), 'TB_PRODUTO', 'Deletou', 'Produto deletar');
 
-        header('Location: ./../../produtoconsultar.php'); 
+        header('Location: ./produtoconsultar.php'); 
         $_SESSION['erro'] = false;
         $_SESSION['msgusu'] = "Produto $cod deletado com sucesso!";
         exit();
     }else{
-        header('Location: ./../../produtoconsultar.php'); 
+        header('Location: ./produtoconsultar.php'); 
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Erro ao deletar o registro, tente novamente mais tarde!';
         exit();
     }
 }else{
 
-    header('Location: ./../../produtoconsultar.php'); 
+    header('Location: ./produtoconsultar.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Erro ao deletar o registro, tente novamente mais tarde!';
     exit();
