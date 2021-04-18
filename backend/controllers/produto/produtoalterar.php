@@ -78,5 +78,5 @@ if(isset($_POST['pk_id'])){
     $resultMA = $objBanco -> query($queryMA);
     $arrayMA = $resultMA -> fetch(PDO::FETCH_ASSOC);
 
-    include "../../../web/src/views/produtoalterar.php";
+    include "../../../web/src/views/produto/produtoalterar.php";
 }

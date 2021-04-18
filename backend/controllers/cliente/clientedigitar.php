@@ -17,7 +17,7 @@ $cliente = new Cliente();
 $cpfval = $_POST['cpf'] ?? '';
 $result = $cliente->validaCPF($cpfval);
 if($result){
-    header('Location: ../../../web/src/views/register-client.php'); 
+    header('Location: ../../../web/src/views/cliente/register-client.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'CPF/CPNJ já cadastrado!';
     exit();
@@ -27,14 +27,14 @@ if($result){
 $result = $cliente->validaDigitoCPF($_POST['pessoa'],$cpfval);
 if($_POST['pessoa'] == 'F'){
     if($result){
-        header('Location: ../../../web/src/views/register-client.php'); 
+        header('Location: ../../../web/src/views/cliente/register-client.php'); 
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Número de dígitos para o tipo de pessoa inválido! (CPF)';
         exit();
     }
 }else{
     if($result){
-        header('Location: ../../../web/src/views/register-client.php'); 
+        header('Location: ../../../web/src/views/cliente/register-client.php'); 
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Número de dígitos para o tipo de pessoa inválido! (CNPJ)';
         exit();
@@ -44,7 +44,7 @@ if($_POST['pessoa'] == 'F'){
 //Validando digitos de CEP
 $result = $cliente->validaCEP($_POST['cep']);
 if($result){
-    header('Location: ../../../web/src/views/register-client.php'); 
+    header('Location: ../../../web/src/views/cliente/register-client.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Número de dígitos para o CEP inválido!';
     exit();
@@ -53,7 +53,7 @@ if($result){
 //Validando E-mail
 $result = $cliente->validaEmail($_POST['email']);
 if($result){
-    header('Location: ../../../web/src/views/register-client.php'); 
+    header('Location: ../../../web/src/views/cliente/register-client.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'E-mail já cadastrado!';
     exit();
@@ -74,12 +74,12 @@ if($return){
     $ret = Gravalog(intval($result['PK_ID']), 'TB_CLIENTE', 'Incluiu', 'Cliente incluir');
 
 
-    header('Location: ../../../web/src/views/register-client.php');
+    header('Location: ../../../web/src/views/cliente/register-client.php');
     $_SESSION['erro'] = false;
     $_SESSION['msgusu'] = 'Registro salvo com sucesso!';
     exit(); 
 }else{
-    header('Location: ../../../web/src/views/register-client.php'); 
+    header('Location: ../../../web/src/views/cliente/register-client.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Erro ao salvar cadastro, tente novamente mais tarde!';
     exit();

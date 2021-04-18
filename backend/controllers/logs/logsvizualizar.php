@@ -17,4 +17,4 @@ $result = $objBanco -> query($query);
 
 $array = $result -> fetch(PDO::FETCH_ASSOC);
 
-include "../../../web/src/views/visualize-logs.php";
+include "../../../web/src/views/logs/visualize-logs.php";

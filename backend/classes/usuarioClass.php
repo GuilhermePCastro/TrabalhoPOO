@@ -107,7 +107,7 @@ class Usuario{
             $objsmtm -> execute();
             $result = $objsmtm -> fetchall();
             $count = $objsmtm -> fetchall();
-            include "../../../web/src/views/pg-user.php";
+            include "../../../web/src/views/usuario/pg-user.php";
         }else{
             
             if($login === '0'){
@@ -143,7 +143,7 @@ class Usuario{
             $result = $objSmtm -> fetchall();
             $count = $objSmtm -> fetchall();
         
-            include "../../../web/src/views/pg-user.php";
+            include "../../../web/src/views/usuario/pg-user.php";
         }
     }
 }

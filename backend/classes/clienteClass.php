@@ -238,7 +238,7 @@ class Cliente{
             $objsmtm -> execute();
             $result = $objsmtm -> fetchall();
             $count = $objsmtm -> fetchall();
-            include "../../../web/src/views/pg-clientes.php";
+            include "../../../web/src/views/cliente/pg-clientes.php";
          
         }else{
             
@@ -275,7 +275,7 @@ class Cliente{
             $result = $objSmtm -> fetchall();
             $count = $objSmtm -> fetchall();
         
-            include "../../../web/src/views/pg-clientes.php";
+            include "../../../web/src/views/cliente/pg-clientes.php";
         
         }
     }

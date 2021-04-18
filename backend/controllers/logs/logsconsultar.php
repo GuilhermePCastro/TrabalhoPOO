@@ -16,7 +16,7 @@ if($_SESSION['usersessao']['adm'] == 0){
     $count = $objsmtm -> fetchall();
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Seu usuário não tem permissão para ver logs!';
-    include "../../../web/src/views/pg-logs.php";
+    include "../../../web/src/views/logs/pg-logs.php";
     exit();
 }
 
@@ -32,7 +32,7 @@ if(!$_GET['cod'] && !$_GET['tabela']){
     $objsmtm -> execute();
     $result = $objsmtm -> fetchall();
     $count = $objsmtm -> fetchall();
-    include "../../../web/src/views/pg-logs.php";
+    include "../../../web/src/views/logs/pg-logs.php";
  
 }else{
 
@@ -67,6 +67,6 @@ if(!$_GET['cod'] && !$_GET['tabela']){
     $result = $objSmtm -> fetchall();
     $count = $objSmtm -> fetchall();
 
-    include "../../../web/src/views/pg-logs.php";
+    include "../../../web/src/views/logs/pg-logs.php";
 
 }

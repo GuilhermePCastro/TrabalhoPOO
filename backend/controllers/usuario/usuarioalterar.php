@@ -38,7 +38,7 @@ if(isset($_POST['pk_id'])){
         //passando para a tela
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'As senhas não são iguais!';
-        include "../../../web/src/views/usuarioalterar.php";
+        include "../../../web/src/views/usuario/usuarioalterar.php";
         exit();
     }
 
@@ -56,7 +56,7 @@ if(isset($_POST['pk_id'])){
         //passando para a tela
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Login já cadastrado!';
-        include "../../../web/src/views/usuarioalterar.php";
+        include "../../../web/src/views/usuario/usuarioalterar.php";
         
         exit();
     }
@@ -88,5 +88,5 @@ if(isset($_POST['pk_id'])){
     $result = $objBanco -> query($query);
     $array = $result -> fetch(PDO::FETCH_ASSOC);
 
-    include "../../../web/src/views/usuarioalterar.php";
+    include "../../../web/src/views/usuario/usuarioalterar.php";
 }

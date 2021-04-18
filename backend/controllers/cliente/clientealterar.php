@@ -65,5 +65,5 @@ if(isset($_POST['pk_id'])){
     $resultES = $objBanco -> query($queryES);
     $arrayES = $resultES -> fetch(PDO::FETCH_ASSOC);
 
-    include "../../../web/src/views/clientealterar.php";
+    include "../../../web/src/views/cliente/clientealterar.php";
 }

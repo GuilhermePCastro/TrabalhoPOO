@@ -12,7 +12,7 @@ $usuario = new Usuario();
 
 
 if($_POST['ds_senha'] != $_POST['ds_senhacon']){
-    header('Location: ../../../web/src/views/usuario.php'); 
+    header('Location: ../../../web/src/views/usuario/usuario.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'As senhas não são iguais!';
     exit();
@@ -21,7 +21,7 @@ if($_POST['ds_senha'] != $_POST['ds_senhacon']){
 //verificando login
 $result = $usuario->validaLogin($_POST['ds_login'], 0);
 if($result){
-    header('Location: ../../../web/src/views/usuario.php'); 
+    header('Location: ../../../web/src/views/usuario/usuario.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Login já cadastrado!';
     exit();
@@ -30,7 +30,7 @@ if($result){
 //verificando email
 $result = $usuario->validaEmail($_POST['ds_email']);
 if($result){
-    header('Location: ../../../web/src/views/usuario.php'); 
+    header('Location: ../../../web/src/views/usuario/usuario.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'E-mail já cadastrado!';
     exit();
@@ -50,12 +50,12 @@ if($return){
     $ret = Gravalog(intval($result['PK_ID']), 'TS_USUARIO', 'Incluiu', 'Usuário incluir');
 
     
-    header('Location: ../../../web/src/views/usuario.php');
+    header('Location: ../../../web/src/views/usuario/usuario.php');
     $_SESSION['erro'] = false;
     $_SESSION['msgusu'] = 'Registro salvo com sucesso!';
     exit(); 
 }else{
-    header('Location: ../../../web/src/views/usuario.php'); 
+    header('Location: ../../../web/src/views/usuario/usuario.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Erro ao salvar cadastro, tente novamente mais tarde!';
     exit();
