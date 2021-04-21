@@ -10,8 +10,10 @@ include "./../../functions/valida_user.php";
 include_once "./../../classes/usuarioClass.php";
 $usuario = new Usuario();
 
+$usuario->setDados($_POST);
 
-if($_POST['ds_senha'] != $_POST['ds_senhacon']){
+//comparando senha
+if(!$usuario->comparaSenha()){
     header('Location: ../../../web/src/views/usuario/usuario.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'As senhas não são iguais!';
@@ -19,8 +21,7 @@ if($_POST['ds_senha'] != $_POST['ds_senhacon']){
 }
 
 //verificando login
-$result = $usuario->validaLogin($_POST['ds_login'], 0);
-if($result){
+if($usuario->validaLogin()){
     header('Location: ../../../web/src/views/usuario/usuario.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Login já cadastrado!';
@@ -28,17 +29,15 @@ if($result){
 }
 
 //verificando email
-$result = $usuario->validaEmail($_POST['ds_email']);
-if($result){
+if($usuario->validaEmail()){
     header('Location: ../../../web/src/views/usuario/usuario.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'E-mail já cadastrado!';
     exit();
 }
 
-$return = $usuario->incluir();
+if($usuario->incluir()){
 
-if($return){
     (__DIR__);
     include './../../functions/gravalog.php';
 
@@ -54,10 +53,13 @@ if($return){
     $_SESSION['erro'] = false;
     $_SESSION['msgusu'] = 'Registro salvo com sucesso!';
     exit(); 
+
 }else{
+
     header('Location: ../../../web/src/views/usuario/usuario.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Erro ao salvar cadastro, tente novamente mais tarde!';
     exit();
+
 }
 

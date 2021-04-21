@@ -3,7 +3,6 @@ session_start();
 include_once "./../../config/db.php";
 
 $_GET['id'] = $_GET['id'] ?? false;
-$cod = $_GET['cod'] ?? '';
 
 if($_SESSION['usersessao']['adm'] == 0){
     header('Location: ./produtoconsultar.php'); 
@@ -14,26 +13,27 @@ if($_SESSION['usersessao']['adm'] == 0){
 
 if($_GET['id']){
    
-    $id = preg_replace('/\D/','', $_GET['id']);
+    //Pega o ID
+    $dados['pk_id'] = preg_replace('/\D/','', $_GET['id']);
+    $dados['codigo'] = $_GET['cod'] ?? '';
 
-     //Objeto de cliente
-     (__DIR__);
-     include_once "./../../classes/produtoClass.php";
-     $produto = new Produto();
- 
-     //Função que deleta no banco
-     $result = $produto->deleta($id);
+    //Objeto de cliente
+    (__DIR__);
+    include_once "./../../classes/produtoClass.php";
+    $produto = new Produto();
+
+    $produto->setDados($dados);
 
     // retornando resultado
-    if($result !== false){
+    if($produto->deleta()){
 
         (__DIR__);
         include './../../functions/gravalog.php';
-        $ret = Gravalog(intval($id), 'TB_PRODUTO', 'Deletou', 'Produto deletar');
+        $ret = Gravalog(intval($dados['pk_id']), 'TB_PRODUTO', 'Deletou', 'Produto deletar');
 
         header('Location: ./produtoconsultar.php'); 
         $_SESSION['erro'] = false;
-        $_SESSION['msgusu'] = "Produto $cod deletado com sucesso!";
+        $_SESSION['msgusu'] = "Produto {$dados['codigo']} deletado com sucesso!";
         exit();
     }else{
         header('Location: ./produtoconsultar.php'); 

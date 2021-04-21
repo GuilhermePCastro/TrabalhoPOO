@@ -25,12 +25,12 @@ if($_SESSION['usersessao']['idusuario'] == $_GET['id']){
 
 if($_GET['id']){
    
-    $id = preg_replace('/\D/','', $_GET['id']);
+    $dados['pk_id'] = preg_replace('/\D/','', $_GET['id']);
 
-    $result = $usuario->deletar($id);
+    $usuario->setDados($dados);
 
     // retornando resultado
-    if($result !== false){
+    if($usuario->deleta()){
 
         (__DIR__);
         include './../../functions/gravalog.php';

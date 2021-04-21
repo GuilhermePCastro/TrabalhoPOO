@@ -12,20 +12,19 @@ if($_SESSION['usersessao']['idusuario'] == 0){
 // verificando se é uma alteração   
 if(isset($_POST['pk_id'])){
 
-    $id = preg_replace('/\D/','', $_POST['pk_id']);
+    $_POST['pk_id'] = preg_replace('/\D/','', $_POST['pk_id']);
     
     //Objeto de produto
     (__DIR__);
     include_once "./../../classes/produtoClass.php";
     $produto = new Produto();
 
-    //pegando variaveis
-    $marca      = intval($_POST['marca']) ?? 0;
-    $categoria  = intval($_POST['categoria']) ?? 0;
+    //setando dados
+    $produto->setDados($_POST);
 
 
     //verificando marca
-    if($marca == 0){
+    if(!$produto->verifMarca()){
         header("Location: ./../../controllers/produto/produtoalterar.php?id=$id");
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Marca não pode está vazia!';
@@ -34,29 +33,28 @@ if(isset($_POST['pk_id'])){
     }
     
     //verificando categoria
-    if($categoria == 0){
+    if(!$produto->verifCategoria()){
         header("Location: ./../../controllers/produto/produtoalterar.php?id=$id");
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'categoria não pode está vazia!';
         exit();
     }
 
-    //alterando no banco
-    $return = $produto->alterar($id);
-
-    if($return){
+    if($produto->alterar()){
 
         //grava log
         (__DIR__);
         include './../../functions/gravalog.php';
-        $ret = Gravalog(intval($id), 'TB_PRODUTO', 'Alterou', 'Produto alterar');
+        $ret = Gravalog(intval($_POST['pk_id']), 'TB_PRODUTO', 'Alterou', 'Produto alterar');
 
 
         header('Location: ./../../controllers/produto/produtoconsultar.php');
         $_SESSION['erro'] = false;
         $_SESSION['msgusu'] = 'Registro alterado com sucesso!';
         exit(); 
+
     }else{
+        
         header('Location: ./../../controllers/produto/produtoconsultar.php'); 
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Erro ao alterar o cadastro, tente novamente mais tarde!';

@@ -13,10 +13,10 @@ if($_SESSION['usersessao']['idusuario'] == 0){
 include_once "./../../classes/clienteClass.php";
 $cliente = new Cliente();
 
-//Validando o CPF/CNPJ
-$cpfval = $_POST['cpf'] ?? '';
-$result = $cliente->validaCPF($cpfval);
-if($result){
+//setando os dados do cliente
+$cliente->setDados($_POST);
+
+if($cliente->validaCPF()){
     header('Location: ../../../web/src/views/cliente/register-client.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'CPF/CPNJ já cadastrado!';
@@ -24,26 +24,15 @@ if($result){
 }
 
 //Validando digitos de CPF/CNPJ
-$result = $cliente->validaDigitoCPF($_POST['pessoa'],$cpfval);
-if($_POST['pessoa'] == 'F'){
-    if($result){
-        header('Location: ../../../web/src/views/cliente/register-client.php'); 
-        $_SESSION['erro'] = true;
-        $_SESSION['msgusu'] = 'Número de dígitos para o tipo de pessoa inválido! (CPF)';
-        exit();
-    }
-}else{
-    if($result){
-        header('Location: ../../../web/src/views/cliente/register-client.php'); 
-        $_SESSION['erro'] = true;
-        $_SESSION['msgusu'] = 'Número de dígitos para o tipo de pessoa inválido! (CNPJ)';
-        exit();
-    }
+if($cliente->validaDigitoCPF()){
+    header('Location: ../../../web/src/views/cliente/register-client.php'); 
+    $_SESSION['erro'] = true;
+    $_SESSION['msgusu'] = 'Número de dígitos para o tipo de pessoa inválido!';
+    exit();
 }
 
 //Validando digitos de CEP
-$result = $cliente->validaCEP($_POST['cep']);
-if($result){
+if($cliente->validaCEP()){
     header('Location: ../../../web/src/views/cliente/register-client.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Número de dígitos para o CEP inválido!';
@@ -51,8 +40,7 @@ if($result){
 }
 
 //Validando E-mail
-$result = $cliente->validaEmail($_POST['email']);
-if($result){
+if($cliente->validaEmail()){
     header('Location: ../../../web/src/views/cliente/register-client.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'E-mail já cadastrado!';
@@ -60,8 +48,7 @@ if($result){
 }
 
 //Salva no Banco
-$return = $cliente->incluir();
-if($return){
+if($cliente->incluir()){
 
     (__DIR__);
     include './../../functions/gravalog.php';
@@ -71,7 +58,7 @@ if($return){
     $objSmtm -> execute();
     $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
 
-    $ret = Gravalog(intval($result['PK_ID']), 'TB_CLIENTE', 'Incluiu', 'Cliente incluir');
+    Gravalog(intval($result['PK_ID']), 'TB_CLIENTE', 'Incluiu', 'Cliente incluir');
 
 
     header('Location: ../../../web/src/views/cliente/register-client.php');

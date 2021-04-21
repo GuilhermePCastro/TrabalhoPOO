@@ -19,6 +19,8 @@ include_once "./../../classes/clienteClass.php";
 $cliente = new Cliente();
 
 //Função que traz os registros e mostra na tela
-$cliente->consulta($fantasia, $cpf);
+$result = $cliente->consulta($fantasia, $cpf);
+$count = $result;
 
+include "../../../web/src/views/cliente/pg-clientes.php";
 

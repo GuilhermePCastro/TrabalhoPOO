@@ -1,9 +1,9 @@
 <?php 
 
 
-include "../../../backend/functions/valida_user.php";
+include "../../../../backend/functions/valida_user.php";
 if($_SESSION['usersessao']['adm'] == 0){
-  header('Location: ../../../backend/controllers/usuario/usuarioconsultar.php'); 
+  header('Location: ../../../../backend/controllers/usuario/usuarioconsultar.php'); 
   $_SESSION['erro'] = true;
   $_SESSION['msgusu'] = 'Você não tem permissão para incluir usuários!';
   exit();
@@ -16,10 +16,10 @@ if($_SESSION['usersessao']['adm'] == 0){
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/styles/css/usuario.css">
-    <link rel="stylesheet" href="../assets/styles/css/menu.css">
+    <link rel="stylesheet" href="../../assets/styles/css/usuario.css">
+    <link rel="stylesheet" href="../../assets/styles/css/menu.css">
     <link href="https://fonts.googleapis.com/css2?family=Rhodium+Libre&display=swap" rel="stylesheet">
-    <script src="../assets/js/menu.js"></script>
+    <script src="../../assets/js/menu.js"></script>
     <title>Usuário</title>
 </head>
 
@@ -34,17 +34,17 @@ if($_SESSION['usersessao']['adm'] == 0){
               <li class="nav__item hide-children">
                 <span class="item__title">
                   Cadastros 
-                  <img class="title__icon" src="../assets/svgs/arrow-down.svg" alt="arrow down">
+                  <img class="title__icon" src="../../assets/svgs/arrow-down.svg" alt="arrow down">
                 </span>
                 <ul class="item__subnav">
                   <li class="subnav__item">
-                    <a class="item__link" href="../../../backend/controllers/cliente/clienteconsultar.php">Clientes</a>
+                    <a class="item__link" href="../../../../backend/controllers/cliente/clienteconsultar.php">Clientes</a>
                   </li>
                   <li class="subnav__item">
-                    <a class="item__link" href="../../../backend/controllers/produto/produtoconsultar.php">Produtos</a>
+                    <a class="item__link" href="../../../../backend/controllers/produto/produtoconsultar.php">Produtos</a>
                   </li>
                   <li class="subnav__item">
-                    <a class="item__link" href="../../../backend/controllers/usuario/usuarioconsultar.php">Usuários</a>
+                    <a class="item__link" href="../../../../backend/controllers/usuario/usuarioconsultar.php">Usuários</a>
                   </li>
                 </ul>
               </li>
@@ -53,22 +53,22 @@ if($_SESSION['usersessao']['adm'] == 0){
                   Mais
                   <img
                     class="title__icon"
-                    src="../assets/svgs/arrow-down.svg"
+                    src="../../assets/svgs/arrow-down.svg"
                     alt="arrow down"
                   />
                 </span>
                 <ul class="item__subnav">
                   <li class="subnav__item">
-                    <a class="item__link" href="../../../backend/controllers/logs/logsconsultar.php">Logs</a>
+                    <a class="item__link" href="../../../../backend/controllers/logs/logsconsultar.php">Logs</a>
                   </li>
                   <li class="subnav__item">
-                    <a class="item__link" href="../../../backend/functions/logout.php">Logout</a>
+                    <a class="item__link" href="../../../../backend/functions/logout.php">Logout</a>
                   </li>
                 </ul>
               </li>
             </ul>
             <a href="./welcome.php">
-              <img src="../assets/images/logo.png" alt="netuno">
+              <img src="../../assets/images/logo.png" alt="netuno">
             </a>
       </nav>
     </header>
@@ -92,7 +92,7 @@ if($_SESSION['usersessao']['adm'] == 0){
                 };  
             ?>
             
-            <form method="POST" action="../../../backend/controllers/usuario/usuariodigitar.php">
+            <form method="POST" action="../../../../backend/controllers/usuario/usuariodigitar.php">
             <div class="form">
                     <div class=" input">
                         <label class=" d-block" for="usuario" >Login*</label>

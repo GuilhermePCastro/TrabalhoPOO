@@ -5,6 +5,19 @@ class Produto{
     //objeto com as conexões do banco
     protected $objBanco;
 
+    protected $sku;
+    protected $nome;
+    protected $codigo;
+    protected $marca;
+    protected $categoria;
+    protected $precovenda;
+    protected $precocusto;
+    protected $estoqueatual;
+    protected $estoquemin;
+    protected $descricao;      
+    protected $inativo;
+    protected $usercriador;
+
     public function __construct(){
         (__DIR__);
         include "./../../config/db.php";
@@ -12,33 +25,56 @@ class Produto{
         $this->objBanco = $objBanco;
     } 
 
+    // Seta as propriedades da classe
+    public function setDados(array $dados): void{
+        $this->sku         = $dados['pk_id'] ?? 0;
+        $this->nome        = $dados['name'] ?? '';
+        $this->codigo      = $dados['codigo'] ?? '';
+        $this->marca       = $dados['marca'] ?? 0;
+        $this->precovenda  = $dados['preco-venda'] ?? 0;
+        $this->precocusto  = $dados['preco-custo'] ?? 0;
+        $this->categoria   = $dados['categoria'] ?? 0;
+        $this->estoqueatual= $dados['estoque-atual'] ?? 0;
+        $this->estoquemin  = $dados['estoque-minimo'] ?? 0;
+        $this->descricao   = $dados['descricao'] ?? '';
+        $this->usercriador = intval($_SESSION['usersessao']['idusuario']);
+        $this->inativo     = isset($dados['inativo']) ? 1 : 0;
+
+    }
+
     //validando tamnho código
-    public function tamanhoCodigo($codigo){
-        if(strlen($codigo) > 15){
+    public function tamanhoCodigo(){
+        if(strlen($this->codigo) > 15){
             return false;
         }
     }
 
-    public function validaCodigo($codigo){
-        $objSmtm = $this->objBanco -> prepare("SELECT PK_SKU FROM TB_PRODUTO WHERE DS_CODIGO = :CODIGO");
-        $objSmtm -> bindparam(':CODIGO',$codigo);
+    //Verificando a marca
+    public function verifMarca(){
+        if(!$this->marca){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //Verificando a categoria
+    public function verifCategoria(){
+        if(!$this->categoria){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function validaCodigo(){
+        $objSmtm = $this->objBanco-> prepare("SELECT PK_SKU FROM TB_PRODUTO WHERE DS_CODIGO = :CODIGO");
+        $objSmtm -> bindparam(':CODIGO',$this->codigo);
         $objSmtm -> execute();
         return $objSmtm -> fetch(PDO::FETCH_ASSOC);
     }
 
     public function incluir(){
-
-        //pegando variaveis
-        $nome       = $_POST['name'];
-        $codigo     = $_POST['codigo'];
-        $marca      = intval($_POST['marca']) ?? 0;
-        $categoria  = intval($_POST['categoria']) ?? 0;
-        $precovenda = intval($_POST['preco-venda']) ?? 0;
-        $precocusto = intval($_POST['preco-custo']) ?? 0;
-        $estoqueatual   = intval($_POST['estoque-atual']) ?? 0;
-        $estoquemin     = intval($_POST['estoque-minimo']) ?? 0;
-        $descricao      = $_POST['descricao'];      
-        $inativo        = $_POST['inativo'] == '1' ? 1 : 0;
 
         //query de insert
         $queryInsert = "INSERT INTO TB_PRODUTO(DS_CODIGO,
@@ -70,34 +106,23 @@ class Produto{
         $objSmtm = $this->objBanco -> prepare($queryInsert);
 
         // substituindo os valores
-        $objSmtm -> bindparam(':DS_CODIGO',$codigo);
-        $objSmtm -> bindparam(':DS_NOME',$nome);
-        $objSmtm -> bindparam(':DS_DESCRICAO',$descricao);
-        $objSmtm -> bindparam(':VL_CUSTO',$precocusto);
-        $objSmtm -> bindparam(':VL_VENDA',$precovenda);
-        $objSmtm -> bindparam(':QT_ESTOQUEATUAL',$estoqueatual);
-        $objSmtm -> bindparam(':QT_ESTOQUEMAX',$estoquemin);
-        $objSmtm -> bindparam(':TG_INATIVO',$inativo);
-        $objSmtm -> bindparam(':FK_CATEGORIA',$categoria);
-        $objSmtm -> bindparam(':FK_MARCA',$marca);
-        $objSmtm -> bindparam(':FK_USUCRIADOR',$_SESSION['usersessao']['idusuario']);
+        $objSmtm -> bindparam(':DS_CODIGO',     $this->codigo);
+        $objSmtm -> bindparam(':DS_NOME',       $this->nome);
+        $objSmtm -> bindparam(':DS_DESCRICAO',  $this->descricao);
+        $objSmtm -> bindparam(':VL_CUSTO',      $this->precocusto);
+        $objSmtm -> bindparam(':VL_VENDA',      $this->precovenda);
+        $objSmtm -> bindparam(':QT_ESTOQUEATUAL',$this->estoqueatual);
+        $objSmtm -> bindparam(':QT_ESTOQUEMAX', $this->estoquemin);
+        $objSmtm -> bindparam(':TG_INATIVO',    $this->inativo);
+        $objSmtm -> bindparam(':FK_CATEGORIA',  $this->categoria);
+        $objSmtm -> bindparam(':FK_MARCA',      $this->marca);
+        $objSmtm -> bindparam(':FK_USUCRIADOR', $this->usercriador);
 
-        return $objSmtm -> execute();
+        return $objSmtm->execute();
 
     }
 
-    public function alterar($id){
-
-        $nome       = $_POST['name'];
-        $codigo     = $_POST['codigo'];
-        $marca      = intval($_POST['marca']) ?? 0;
-        $categoria  = intval($_POST['categoria']) ?? 0;
-        $precovenda = intval($_POST['preco-venda']) ?? 0;
-        $precocusto = intval($_POST['preco-custo']) ?? 0;
-        $estoqueatual   = intval($_POST['estoque-atual']) ?? 0;
-        $estoquemin     = intval($_POST['estoque-minimo']) ?? 0;
-        $descricao      = $_POST['descricao'];      
-        $inativo        = isset($_POST['inativo']) == true ? 1 : 0;
+    public function alterar(){
 
         $objSmtm = $this->objBanco -> prepare("UPDATE TB_PRODUTO SET
                                         DS_NOME        = :DS_NOME,
@@ -111,24 +136,27 @@ class Produto{
                                         FK_CATEGORIA    = :FK_CATEGORIA,
                                         DH_ALTERACAO    = now()
                                     WHERE
-                                        PK_SKU = $id");
+                                        PK_SKU = :SKU");
 
         // substituindo os valores
-        $objSmtm -> bindparam(':DS_NOME',$nome);
-        $objSmtm -> bindparam(':DS_DESCRICAO',$descricao);
-        $objSmtm -> bindparam(':VL_CUSTO',$precocusto);
-        $objSmtm -> bindparam(':VL_VENDA',$precovenda);
-        $objSmtm -> bindparam(':QT_ESTOQUEATUAL',$estoqueatual);
-        $objSmtm -> bindparam(':QT_ESTOQUEMAX',$estoquemin);
-        $objSmtm -> bindparam(':TG_INATIVO',$inativo);
-        $objSmtm -> bindparam(':FK_CATEGORIA',$categoria);
-        $objSmtm -> bindparam(':FK_MARCA',$marca);
+        $objSmtm -> bindparam(':DS_NOME',       $this->nome);
+        $objSmtm -> bindparam(':DS_DESCRICAO',  $this->descricao);
+        $objSmtm -> bindparam(':VL_CUSTO',      $this->precocusto);
+        $objSmtm -> bindparam(':VL_VENDA',      $this->precovenda);
+        $objSmtm -> bindparam(':QT_ESTOQUEATUAL',$this->estoqueatual);
+        $objSmtm -> bindparam(':QT_ESTOQUEMAX', $this->estoquemin);
+        $objSmtm -> bindparam(':TG_INATIVO',    $this->inativo);
+        $objSmtm -> bindparam(':FK_CATEGORIA',  $this->categoria);
+        $objSmtm -> bindparam(':FK_MARCA',      $this->marca);
+        $objSmtm -> bindparam(':SKU',           $this->sku);
 
         return $objSmtm -> execute();
     }
 
-    public function deleta($id){
-       return $this->objBanco -> Query("DELETE FROM TB_PRODUTO WHERE PK_SKU = $id");
+    public function deleta(){
+        $objSmtm = $this->objBanco->prepare("DELETE FROM TB_PRODUTO WHERE PK_SKU = :id");
+        $objSmtm -> bindparam(':id', $this->sku);
+        return $objSmtm->execute();
     }
 
     //Função que consulta o registro no banco
@@ -147,11 +175,7 @@ class Produto{
                             LEFT JOIN TB_CATEGORIA AS CAT ON CAT.PK_ID = PRO.FK_CATEGORIA 
                         WHERE 
                             PRO.TG_INATIVO = 0";
-            $objsmtm = $this -> objBanco -> prepare($query);
-            $objsmtm -> execute();
-            $result = $objsmtm -> fetchall();
-            $count = $objsmtm -> fetchall();
-            include "../../../web/src/views/produto/pg-products.php";
+            $objSmtm = $this -> objBanco -> prepare($query);
          
         }else{
             
@@ -201,14 +225,14 @@ class Produto{
             if($categoria != 0){
                 $objSmtm -> bindparam(':categoria',$categoria);
             }
-        
-            //Passando para a tela
-            $objSmtm -> execute();
-            $result = $objSmtm -> fetchall();
-            $count = $objSmtm -> fetchall();
-        
-            include "../../../web/src/views/produto/pg-products.php";
+    
         }
+
+        //Passando para a tela
+        $objSmtm -> execute();
+        $result = $objSmtm -> fetchall();
+        
+        return $result;
         
     }
 

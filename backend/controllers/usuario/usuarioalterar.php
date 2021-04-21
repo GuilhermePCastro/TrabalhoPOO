@@ -23,17 +23,18 @@ $usuario = new Usuario();
 // verificando se é uma alteração   
 if(isset($_POST['pk_id'])){
 
-    $id = preg_replace('/\D/','', $_POST['pk_id']);
+    $_POST['pk_id'] = preg_replace('/\D/','', $_POST['pk_id']);
 
+    $usuario->setDados($_POST);
     
-    if($_POST['ds_senha'] != $_POST['ds_senhacon']){
+    if(!$usuario->comparaSenha()){
 
         //montando o registro para alterar
-        $array = $usuario->montaRegistro($id);
+        $array = $usuario->montaRegistro();
 
         //substituindo os valores para continuar com o que foi digitado
-        $array['DS_LOGIN']  = $login;
-        $array['TG_ADM']    = $adm ;
+        $login = $array['DS_LOGIN'];
+        $adm   = $array['TG_ADM'] ;
 
         //passando para a tela
         $_SESSION['erro'] = true;
@@ -43,15 +44,14 @@ if(isset($_POST['pk_id'])){
     }
 
     //verificando login
-    $result = $usuario->validaLogin($_POST['ds_login'], $id);
-    if($result){
+    if($usuario->validaLogin()){
         
         //montando o registro para alterar
-        $array = $usuario->montaRegistro($id);
+        $array = $usuario->montaRegistro();
 
         //substituindo os valores para continuar com o que foi digitado
-         $array['DS_LOGIN']  = $login;
-         $array['TG_ADM']    = $adm ;
+        $login = $array['DS_LOGIN'];
+        $adm   = $array['TG_ADM'] ;
  
         //passando para a tela
         $_SESSION['erro'] = true;
@@ -60,15 +60,13 @@ if(isset($_POST['pk_id'])){
         
         exit();
     }
-
-    $return = $usuario->alterar($id);
     
-    if($return){
+    if($usuario->alterar()){
 
         (__DIR__);
         include './../../functions/gravalog.php';
 
-        $ret = Gravalog(intval($id), 'TS_USUARIO', 'Alterou', 'Usuário alterar');
+        $ret = Gravalog(intval($_POST['pk_id']), 'TS_USUARIO', 'Alterou', 'Usuário alterar');
 
         header('Location: ./usuarioconsultar.php');
         $_SESSION['erro'] = false;

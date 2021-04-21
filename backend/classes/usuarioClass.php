@@ -5,6 +5,15 @@ class Usuario{
     //objeto com as conexões do banco
     protected $objBanco;
 
+    protected $id;
+    protected $login;
+    protected $email;
+    protected $adm;
+    protected $senha;
+    protected $senhacon;
+    protected $usercriador;
+    protected $inativo;
+
     public function __construct(){
         (__DIR__);
         include "./../../config/db.php";
@@ -12,35 +21,51 @@ class Usuario{
         $this->objBanco = $objBanco;
     } 
 
-    function validaLogin($login, $id){
-        if($id <> 0){
-            $objSmtm = $this->objBanco->prepare("SELECT DS_LOGIN FROM TS_USUARIO WHERE DS_LOGIN = :LOGIN AND PK_ID <> $id");
-            $objSmtm -> bindparam(':LOGIN',$login);
+    public function setDados(array $dados): void{
+        $this->login        = $dados['ds_login'] ?? '';
+        $this->email        = $dados['ds_email'] ?? '';
+        $this->adm          = isset($dados['tg_adm']) ? 1 : 0;
+        $this->senha        = $dados['ds_senha'] ?? '';
+        $this->senhacon     = $dados['ds_senhacon'] ?? '';
+        $this->usercriador  = intval($_SESSION['usersessao']['idusuario']);
+        $this->inativo      = isset($dados['inativo']) ? 1 : 0;
+        $this->id           = $dados['pk_id'] ?? 0;
+
+    }
+
+    public function comparaSenha(){
+        if($this->senha != $this->senhacon){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function validaLogin(){
+        if($this->id <> 0){
+            $objSmtm = $this->objBanco->prepare("SELECT DS_LOGIN FROM TS_USUARIO WHERE DS_LOGIN = :LOGIN AND PK_ID <> $this->id");
+            $objSmtm -> bindparam(':LOGIN',$this->login);
             $objSmtm -> execute();
             return $objSmtm -> fetch(PDO::FETCH_ASSOC);
         }else{
             $objSmtm = $this->objBanco->prepare("SELECT DS_LOGIN FROM TS_USUARIO WHERE DS_LOGIN = :LOGIN");
-            $objSmtm -> bindparam(':LOGIN',$login);
+            $objSmtm -> bindparam(':LOGIN',$this->login);
             $objSmtm -> execute();
             return $objSmtm -> fetch(PDO::FETCH_ASSOC);
         }
     }
 
-    function validaEmail($email){
+    public function validaEmail(){
         $objSmtm = $this->objBanco -> prepare("SELECT DS_EMAIL FROM TS_USUARIO WHERE DS_EMAIL = :EMAIL");
-        $objSmtm -> bindparam(':EMAIL',$email );
+        $objSmtm -> bindparam(':EMAIL',$this->email );
         $objSmtm -> execute();
         return $objSmtm -> fetch(PDO::FETCH_ASSOC);
     }
 
-    function incluir(){
-
-        $login    = $_POST['ds_login'];
-        $email    = $_POST['ds_email'];
-        $adm      = $_POST['tg_adm'] == '1' ? 1 : 0;
+    public function incluir(){
 
         //Criptografando
-        $senha    = password_hash($$_POST['ds_senha'],PASSWORD_DEFAULT);
+        $this->senha  = password_hash($this->senha,PASSWORD_DEFAULT);
 
         //query de insert
         $queryInsert = "insert into ts_usuario (DS_LOGIN, DS_EMAIL, DS_SENHA, TG_ADM, DH_INCLUSAO, FK_USUCRIADOR) 
@@ -50,32 +75,26 @@ class Usuario{
         $objSmtm = $this->objBanco->prepare($queryInsert);
 
         // substituindo os valores
-        $objSmtm -> bindparam(':ds_login',$login);
-        $objSmtm -> bindparam(':ds_email',$email);
-        $objSmtm -> bindparam(':ds_senha',$senha);
-        $objSmtm -> bindparam(':tg_adm',$adm);
-        $objSmtm -> bindparam(':fk_usucriador',$_SESSION['usersessao']['idusuario']);
+        $objSmtm -> bindparam(':ds_login',$this->login);
+        $objSmtm -> bindparam(':ds_email',$this->email);
+        $objSmtm -> bindparam(':ds_senha',$this->senha);
+        $objSmtm -> bindparam(':tg_adm',$this->adm);
+        $objSmtm -> bindparam(':fk_usucriador',$this->usercriador);
 
         return $objSmtm -> execute();
     }
 
-    function montaRegistro($id){
+    public function montaRegistro(){
 
-        $query = "SELECT * FROM TS_USUARIO WHERE PK_ID = $id";
-        $result = $objBanco -> query($query);
+        $query = "SELECT * FROM TS_USUARIO WHERE PK_ID = $this->id";
+        $result = $this->objBanco->query($query);
         return $result -> fetch(PDO::FETCH_ASSOC);
     }
 
-    function alterar($id){
-
-         //pegando variaveis
-        $login    = $_POST['ds_login'];
-        $senha    = $_POST['ds_senha'];
-        $senhacon = $_POST['ds_senhacon'];
-        $adm      = $_POST['tg_adm'] ?? 0;
+    public function alterar(){
 
         //Criptografando
-        $senha = password_hash($senha,PASSWORD_DEFAULT);
+        $this->senha  = password_hash($this->senha,PASSWORD_DEFAULT);
 
         $objSmtm = $this->objBanco -> prepare("UPDATE TS_USUARIO SET
                                                 DS_LOGIN = :DS_LOGIN, 
@@ -83,17 +102,20 @@ class Usuario{
                                                 TG_ADM   = :TG_ADM,
                                                 DH_ALTERACAO = now()
                                             WHERE
-                                                PK_ID = $id");
+                                                PK_ID = :ID");
 
-        $objSmtm -> bindParam(':DS_LOGIN',$login);
-        $objSmtm -> bindParam(':DS_SENHA',$senha);
-        $objSmtm -> bindParam(':TG_ADM',$adm);
+        $objSmtm -> bindParam(':DS_LOGIN',$this->login);
+        $objSmtm -> bindParam(':DS_SENHA',$this->senha);
+        $objSmtm -> bindParam(':TG_ADM',$this->adm);
+        $objSmtm -> bindParam(':ID',$this->id);
 
         return $objSmtm -> execute();
     }
 
-    function deletar($id){
-        return $this->objBanco -> Query("DELETE FROM TS_USUARIO WHERE PK_ID = $id");
+    public function deleta(){
+        $objSmtm = $this->objBanco->prepare("DELETE FROM TS_USUARIO WHERE PK_ID = :id");
+        $objSmtm -> bindparam(':id', $this->id);
+        return $objSmtm->execute();
     }
 
     //Função que consulta o registro no banco
@@ -103,11 +125,8 @@ class Usuario{
         if(!$login && !$email){
 
             $query = "SELECT PK_ID, DS_LOGIN, DS_EMAIL FROM TS_USUARIO WHERE TG_INATIVO = 0";
-            $objsmtm = $this->objBanco -> prepare($query);
-            $objsmtm -> execute();
-            $result = $objsmtm -> fetchall();
-            $count = $objsmtm -> fetchall();
-            include "../../../web/src/views/usuario/pg-user.php";
+            $objSmtm = $this->objBanco -> prepare($query);
+
         }else{
             
             if($login === '0'){
@@ -138,12 +157,12 @@ class Usuario{
                 $objSmtm -> bindparam(':email',$likeemail);
             }
         
-            //Passando para a tela
-            $objSmtm -> execute();
-            $result = $objSmtm -> fetchall();
-            $count = $objSmtm -> fetchall();
-        
-            include "../../../web/src/views/usuario/pg-user.php";
         }
+
+        //Passando para a tela
+        $objSmtm -> execute();
+        $result = $objSmtm -> fetchall();
+        return $result;
+        
     }
 }

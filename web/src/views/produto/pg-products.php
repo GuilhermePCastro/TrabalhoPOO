@@ -64,7 +64,7 @@
     <section class="main__page-content right-container">
       <div class="page-content__title">
         <h1 class="title__text">Produtos</h1>
-        <a href="../../../web/src/views/register-product.php">
+        <a href="../../../web/src/views/produto/register-product.php">
           <button type="button" class="title__include">
             <img src="../../../web/src/assets/svgs/plus-square.svg" alt="+">
             Incluir Registro

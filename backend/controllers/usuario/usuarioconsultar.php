@@ -18,6 +18,8 @@ $email   = isset($_GET['ds_email']) ? $_GET['ds_email'] : '0';
 
 
 //Função que traz os registros e mostra na tela
-$usuario->consulta($login, $email);
+$result = $usuario->consulta($login, $email);
+$count = $result;
+include "../../../web/src/views/usuario/pg-user.php";
 
 

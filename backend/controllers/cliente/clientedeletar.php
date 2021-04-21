@@ -15,28 +15,28 @@ if($_SESSION['usersessao']['adm'] == 0){
 if($_GET['id']){
    
     //Pega o ID
-    $id = preg_replace('/\D/','', $_GET['id']);
+    $dados['pk_id'] = preg_replace('/\D/','', $_GET['id']);
 
     //Objeto de cliente
     (__DIR__);
     include_once "./../../classes/clienteClass.php";
     $cliente = new Cliente();
 
-    //Função que deleta no banco
-    $result = $cliente->deleta($id);
+    $cliente->setDados($dados);
 
+    //Função que deleta no banco
     // retornando resultado
-    if($result !== false){
+    if($cliente->deleta()){
 
         //Grava Log
         (__DIR__);
         include './../../functions/gravalog.php';
-        $ret = Gravalog(intval($id), 'TB_CLIENTE', 'Deletou', 'Cliente deletar');
+        $ret = Gravalog(intval($dados['pk_id']), 'TB_CLIENTE', 'Deletou', 'Cliente deletar');
 
         //Retorna o Sucesso
         header('Location: ./clienteconsultar.php'); 
         $_SESSION['erro'] = false;
-        $_SESSION['msgusu'] = "Cliente $id deletado com sucesso!";
+        $_SESSION['msgusu'] = "Cliente {$dados['pk_id']} deletado com sucesso!";
         exit();
     }else{
         //Retorna o erro

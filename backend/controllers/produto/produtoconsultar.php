@@ -20,4 +20,7 @@ include_once "./../../classes/produtoClass.php";
 $produto = new Produto();
 
 //Função que traz os registros e mostra na tela
-$produto->consulta($codigo, $nome, $categoria);
+$result = $produto->consulta($codigo, $nome, $categoria);
+$count = $result;
+
+include "../../../web/src/views/produto/pg-products.php";

@@ -64,7 +64,7 @@
     <section class="main__page-content right-container">
       <div class="page-content__title">
         <h1 class="title__text">Clientes</h1>
-        <a href="../../../web/src/views/register-client.php">
+        <a href="../../../web/src/views/cliente/register-client.php">
           <button type="button" class="title__include">
             <img src="../../../web/src/assets/svgs/plus-square.svg" alt="+">
             Incluir Registro
@@ -89,7 +89,7 @@
           };  
       ?>
 
-      <form class="page-content__inputs" method='GET' action='../backend/controllers/cliente/clienteconsultar.php'>
+      <form class="page-content__inputs" method='GET' action='../../../backend/controllers/cliente/clienteconsultar.php'>
         <label class="input-container inputs__login" name='ds_fantasia'>
           Fantasia
           <input type="text" class="input-container__input"  name='ds_fantasia'>

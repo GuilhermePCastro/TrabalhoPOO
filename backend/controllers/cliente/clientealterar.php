@@ -12,17 +12,19 @@ if($_SESSION['usersessao']['idusuario'] == 0){
 // verificando se é uma alteração   
 if(isset($_POST['pk_id'])){
     
-    //pegando o ID
-    $id = preg_replace('/\D/','', $_POST['pk_id']);
+    //tratando ID
+    $_POST['pk_id'] = preg_replace('/\D/','', $_POST['pk_id']);
 
     //Objeto de cliente
     (__DIR__);
     include_once "./../../classes/clienteClass.php";
     $cliente = new Cliente();
 
+    // Setando dados
+    $cliente->setDados($_POST);
+
     //Valida o tamanho do CEP
-    $result = $cliente->validaCEP($_POST['cep']);
-    if($result){
+    if($cliente->validaCEP()){
         header("Location: ./clientealterar.php?id=$id");
         $_SESSION['erro'] = true;
         $_SESSION['msgusu'] = 'Número de dígitos para o CEP inválido!';
@@ -30,13 +32,12 @@ if(isset($_POST['pk_id'])){
     }
     
     //Grava a alteração no banco
-    $return = $cliente->alterar($id);
-    if($return){
+    if($cliente->alterar()){
 
         //Grava o Log
         (__DIR__);
         include './../../functions/gravalog.php';
-        $ret = Gravalog(intval($id), 'TB_CLIENTE', 'Alterou', 'Cliente alterar');
+        $ret = Gravalog(intval($_POST['pk_id']), 'TB_CLIENTE', 'Alterou', 'Cliente alterar');
 
         //Retorna o sucesso
         header('Location: ./clienteconsultar.php');

@@ -67,7 +67,7 @@ include "../../../backend/config/db.php";
     <section class="main__page-content right-container">
       <div class="page-content__title">
         <h1 class="title__text">Usuários</h1>
-        <a href="../../../web/src/views/usuario.php">
+        <a href="../../../web/src/views/usuario/usuario.php">
           <button type="button" class="title__include">
             <img src="../../../web/src/assets/svgs/plus-square.svg" alt="+">
             Incluir Registro

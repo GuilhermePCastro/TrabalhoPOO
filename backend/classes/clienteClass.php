@@ -5,6 +5,27 @@ class Cliente{
     //objeto com as conexões do banco
     protected $objBanco;
 
+    //propriedades de cliente
+    protected $id;
+    protected $fantasia;
+    protected $razao;
+    protected $pessoa;
+    protected $cpf;
+    protected $email;
+    protected $telefone;
+    protected $celular;
+    protected $cep;
+    protected $endereco;
+    protected $numero;
+    protected $cidade;
+    protected $complemento;
+    protected $referencia;
+    protected $observacao;
+    protected $estado;
+    protected $usercriador;
+    protected $inativo;
+
+
     public function __construct(){
         (__DIR__);
         include "./../../config/db.php";
@@ -12,46 +33,65 @@ class Cliente{
         $this->objBanco = $objBanco;
     }
 
+    // Seta as propriedades da classe
+    public function setDados(array $dados): void{
+        $this->fantasia     = $dados['fantasia'] ?? '';
+        $this->razao        = $dados['razao'] ?? '';
+        $this->pessoa       = $dados['pessoa'] ?? '';
+        $this->cpf          = $dados['cpf'] ?? '';
+        $this->email        = $dados['email'] ?? '';
+        $this->telefone     = $dados['telefone'] ?? '';
+        $this->celular      = $dados['celular'] ?? '';
+        $this->cep          = $dados['cep'] ?? '';
+        $this->endereco     = $dados['endereco'] ?? '';
+        $this->numero       = $dados['numero'] ?? '';
+        $this->cidade       = $dados['cidade'] ?? '';
+        $this->complemento  = $dados['complemento'] ?? '';
+        $this->referencia   = $dados['referencia'] ?? '';
+        $this->observacao   = $dados['observacao'] ?? '';
+        $this->estado       = $dados['estado'] ?? '';
+        $this->usercriador  = intval($_SESSION['usersessao']['idusuario']);
+        $this->inativo      = isset($dados['inativo']) ? 1 : 0;
+        $this->id          = $dados['pk_id'] ?? 0;
+
+    }
+
     //Função que valida o CPF/CNPJ no banco
-    public function validaCPF($cpf){
+    public function validaCPF(){
         //verificando CPF
-        $objSmtm = $this->objBanco -> prepare("SELECT NR_CPF FROM TB_CLIENTE WHERE NR_CPF = :CPF");
-        $cpfval = $cpf ?? '';
-        $objSmtm -> bindparam(':CPF',$cpfval);
+        $objSmtm = $this->objBanco -> prepare("SELECT NR_CPF FROM TB_CLIENTE WHERE NR_CPF = :CPF AND TG_INATIVO = 0");
+        $objSmtm -> bindparam(':CPF',$this->cpf);
         $objSmtm -> execute();
-        $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-        return $result;
+        return $objSmtm -> fetch(PDO::FETCH_ASSOC);
 
     }
 
     //Função valida email no banco
-    public function validaEmail($email){
+    public function validaEmail(){
         //verificando CPF
         $objSmtm = $this->objBanco -> prepare("SELECT DS_EMAIL FROM TB_CLIENTE WHERE DS_EMAIL = :EMAIL");
-        $email = $email ?? '';
-        $objSmtm -> bindparam(':EMAIL',$email);
+        $objSmtm -> bindparam(':EMAIL',$this->email);
         $objSmtm -> execute();
-        $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-        return $result;
+        return $objSmtm -> fetch(PDO::FETCH_ASSOC);
 
     }
 
     //Valida diigtos do CPF/CNPJ
-    public function validaDigitoCPF($pessoa, $cpf){
-        if($pessoa == 'F'){
-            if(strlen($cpf) != 11){
+    public function validaDigitoCPF(){
+        if($this->pessoa == 'F'){
+            if(strlen($this->cpf) != 11){
                 return false;
             }
         }else{
-            if(strlen($cpf) != 14){
+            if(strlen($this->cpf) != 14){
                 return false;
             }
         }
     }
 
     //Valida digitos do CEP
-    public function validaCEP($cep){
-        if(strlen($cep) != 8){
+    public function validaCEP(){
+        if(strlen($this->cep) != 8){
             return false;
         }
     }
@@ -100,64 +140,30 @@ class Cliente{
         $objSmtm = $this->objBanco -> prepare($queryInsert);
 
         // substituindo os valores
-        $fantasia = $_POST['fantasia'] ?? '';
-        $objSmtm -> bindparam(':fantasia',$fantasia);
+        $objSmtm -> bindparam(':fantasia',  $this->fantasia);
+        $objSmtm -> bindparam(':razao',     $this->razao);
+        $objSmtm -> bindparam(':pessoa',    $this->pessoa);
+        $objSmtm -> bindparam(':cpf',       $this->cpf);
+        $objSmtm -> bindparam(':email',     $this->email );
+        $objSmtm -> bindparam(':telefone',  $this->telefone);
+        $objSmtm -> bindparam(':celular',   $this->celular);
+        $objSmtm -> bindparam(':cep',       $this->cep);
+        $objSmtm -> bindparam(':endereco',  $this->endereco);
+        $objSmtm -> bindparam(':numero',    $this->numero) ;
+        $objSmtm -> bindparam(':cidade',    $this->cidade);
+        $objSmtm -> bindparam(':complemento',$this->complemento);
+        $objSmtm -> bindparam(':referencia', $this->referencia);
+        $objSmtm -> bindparam(':observacao', $this->observacao);
+        $objSmtm -> bindparam(':estado',     $this->estado);
+        $objSmtm -> bindparam(':usu',        $this->usercriador);
+        $objSmtm -> bindparam(':inativo',    $this->inativo);
 
-        $razao = $_POST['razao'] ?? '';
-        $objSmtm -> bindparam(':razao',$razao);
+        return $objSmtm -> execute();
 
-        $pessoa = $_POST['pessoa'] ?? '';
-        $objSmtm -> bindparam(':pessoa',$pessoa);
-
-        $cpf = $_POST['cpf'] ?? '';
-        $objSmtm -> bindparam(':cpf', $cpf);
-
-        $email = $_POST['email'] ?? '';
-        $objSmtm -> bindparam(':email', $email );
-
-        $telefone = $_POST['telefone'] ?? '';
-        $objSmtm -> bindparam(':telefone', $telefone);
-
-        $celular = $_POST['celular'] ?? '';
-        $objSmtm -> bindparam(':celular', $celular);
-
-        $cep = $_POST['cep'] ?? '';
-        $objSmtm -> bindparam(':cep', $cep);
-
-        $endereco = $_POST['endereco'] ?? '';
-        $objSmtm -> bindparam(':endereco', $endereco);
-
-        $numero = $_POST['numero'] ?? '';
-        $objSmtm -> bindparam(':numero', $numero) ;
-
-        $cidade = $_POST['cidade'] ?? '';
-        $objSmtm -> bindparam(':cidade', $cidade);
-
-        $complemento = $_POST['complemento'] ?? '';
-        $objSmtm -> bindparam(':complemento', $complemento);
-
-        $referencia = $_POST['referencia'] ?? '';
-        $objSmtm -> bindparam(':referencia', $referencia);
-
-        $observacao = $_POST['observacao'] ?? '';
-        $objSmtm -> bindparam(':observacao', $observacao);
-
-        $estado = $_POST['estado'] ?? '';
-        $objSmtm -> bindparam(':estado', $estado);
-
-        $usercriador = intval($_SESSION['usersessao']['idusuario']);
-        $objSmtm -> bindparam(':usu', $usercriador);
-
-        $inativo = $_POST['inativo'] == '1' ? 1 : 0;
-        $objSmtm -> bindparam(':inativo', $inativo);
-
-        $return = $objSmtm -> execute();
-
-        return $return;
     }
 
     //Função que altera o registro no banco
-    public function alterar($id){
+    public function alterar(){
         $objSmtm = $this->objBanco -> prepare("UPDATE TB_CLIENTE SET
                                         DS_FANTASIA     = :fantasia,
                                         DS_RAZAO        = :razao,
@@ -176,55 +182,27 @@ class Cliente{
                                         FK_ESTADO       = :estado,
                                         DH_ALTERACAO    = now()
                                     WHERE
-                                        PK_ID = $id");
+                                        PK_ID = :id");
 
         // substituindo os valores
-        $fantasia = $_POST['fantasia'] ?? '';
-        $objSmtm -> bindparam(':fantasia',$fantasia);
+        $objSmtm -> bindparam(':id',        $this->id);
+        $objSmtm -> bindparam(':fantasia',  $this->fantasia);
+        $objSmtm -> bindparam(':razao',     $this->razao);
+        $objSmtm -> bindparam(':pessoa',    $this->pessoa);
+        $objSmtm -> bindparam(':email',     $this->email );
+        $objSmtm -> bindparam(':telefone',  $this->telefone);
+        $objSmtm -> bindparam(':celular',   $this->celular);
+        $objSmtm -> bindparam(':cep',       $this->cep);
+        $objSmtm -> bindparam(':endereco',  $this->endereco);
+        $objSmtm -> bindparam(':numero',    $this->numero) ;
+        $objSmtm -> bindparam(':cidade',    $this->cidade);
+        $objSmtm -> bindparam(':complemento',$this->complemento);
+        $objSmtm -> bindparam(':referencia', $this->referencia);
+        $objSmtm -> bindparam(':observacao', $this->observacao);
+        $objSmtm -> bindparam(':estado',     $this->estado);
+        $objSmtm -> bindparam(':inativo',    $this->inativo);
 
-        $razao = $_POST['razao'] ?? '';
-        $objSmtm -> bindparam(':razao',$razao);
-
-        $pessoa = $_POST['pessoa'] ?? '';
-        $objSmtm -> bindparam(':pessoa',$pessoa);
-
-        $email = $_POST['email'] ?? '';
-        $objSmtm -> bindparam(':email', $email );
-
-        $telefone = $_POST['telefone'] ?? '';
-        $objSmtm -> bindparam(':telefone', $telefone);
-
-        $celular = $_POST['celular'] ?? '';
-        $objSmtm -> bindparam(':celular', $celular);
-
-        $cep = $_POST['cep'] ?? '';
-        $objSmtm -> bindparam(':cep', $cep);
-
-        $endereco = $_POST['endereco'] ?? '';
-        $objSmtm -> bindparam(':endereco', $endereco);
-
-        $numero = $_POST['numero'] ?? '';
-        $objSmtm -> bindparam(':numero', $numero) ;
-
-        $cidade = $_POST['cidade'] ?? '';
-        $objSmtm -> bindparam(':cidade', $cidade);
-
-        $complemento = $_POST['complemento'] ?? '';
-        $objSmtm -> bindparam(':complemento', $complemento);
-
-        $referencia = $_POST['referencia'] ?? '';
-        $objSmtm -> bindparam(':referencia', $referencia);
-
-        $observacao = $_POST['observacao'] ?? '';
-        $objSmtm -> bindparam(':observacao', $observacao);
-
-        $estado = $_POST['estado'] ?? '';
-        $objSmtm -> bindparam(':estado', $estado);
-
-        $inativo = isset($_POST['inativo']) ? 1 : 0;
-        $objSmtm -> bindparam(':inativo', $inativo);
-
-        return $objSmtm -> execute();
+        return $objSmtm->execute();
 
     }
 
@@ -234,11 +212,7 @@ class Cliente{
         //Se não tiver filtro traz tudo
         if(!$fantasia && !$cpf){
             $query = "SELECT PK_ID, DS_FANTASIA, NR_CPF FROM TB_CLIENTE WHERE TG_INATIVO = 0";
-            $objsmtm = $this->objBanco -> prepare($query);
-            $objsmtm -> execute();
-            $result = $objsmtm -> fetchall();
-            $count = $objsmtm -> fetchall();
-            include "../../../web/src/views/cliente/pg-clientes.php";
+            $objSmtm = $this->objBanco -> prepare($query);
          
         }else{
             
@@ -270,20 +244,21 @@ class Cliente{
                 $objSmtm -> bindparam(':cpf',$cpf);
             }
         
-            //Passando para a tela
-            $objSmtm -> execute();
-            $result = $objSmtm -> fetchall();
-            $count = $objSmtm -> fetchall();
-        
-            include "../../../web/src/views/cliente/pg-clientes.php";
-        
         }
+
+        //Passando para a tela
+        $objSmtm -> execute();
+        $result = $objSmtm -> fetchall();
+        $count = $objSmtm -> fetchall();
+        
+        return $result;
     }
 
     //Função que deleta o registro no banco
-    public function deleta($id){
-        $id = preg_replace('/\D/','', $id);
-        return $this->objBanco -> Query("DELETE FROM TB_CLIENTE WHERE PK_ID = $id");
+    public function deleta(){
+        $objSmtm = $this->objBanco->prepare("DELETE FROM TB_CLIENTE WHERE PK_ID = :id");
+        $objSmtm -> bindparam(':id', $this->id);
+        return $objSmtm->execute();
     }
 
 }

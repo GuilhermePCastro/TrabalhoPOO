@@ -10,14 +10,10 @@ include "./../../functions/valida_user.php";
 include_once "./../../classes/produtoClass.php";
 $produto = new Produto();
 
-
-//pegando variaveis
-$marca      = intval($_POST['marca']) ?? 0;
-$categoria  = intval($_POST['categoria']) ?? 0;
+$produto->setDados($_POST);
 
 //verificando tamanho do código
-$result = $produto->tamanhoCodigo($_POST['codigo']);
-if($result){
+if($produto->tamanhoCodigo()){
     
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Código tem mais caracter do que o suportado (Máx 15)!';
@@ -26,9 +22,7 @@ if($result){
 }
 
 //verificando Código
-$result = $produto->validaCodigo($_POST['codigo']);
-// se cair aqui, já existe cadastrado
-if($result){
+if($produto->validaCodigo()){
     
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Código já cadastrado!';
@@ -37,7 +31,7 @@ if($result){
 }
 
 //verificando se tem marca
-if($marca == 0){
+if(!$produto->verifMarca()){
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Marca não pode está vazia!';
     header('Location: ../../../web/src/views/produto/register-product.php'); 
@@ -45,17 +39,14 @@ if($marca == 0){
 }
 
 //verificando se tem categoria
-if($categoria == 0){
+if(!$produto->verifCategoria()){
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'categoria não pode está vazia!';
     header('Location: ../../../web/src/views/produto/register-product.php'); 
     exit();
 }
 
-//incluindo no banco
-$return = $produto->incluir();
-
-if($return){
+if($produto->incluir()){
 
     (__DIR__);
     include './../../functions/gravalog.php';
