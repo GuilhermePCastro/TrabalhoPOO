@@ -54,7 +54,7 @@
                 <a class="item__link" href="../../../backend/controllers/logs/logsconsultar.php">Logs</a>
               </li>
               <li class="subnav__item">
-                <a class="item__link" href="../../../backend/functions/logout.php">Logout</a>
+                <a class="item__link" href="../../../backend/controllers/sistema/logout.php">Logout</a>
               </li>
             </ul>
           </li>

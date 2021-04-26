@@ -1,9 +1,7 @@
 <?php
+include_once((__DIR__) . './bdClass.php');
+class Usuario extends BD{
 
-class Usuario{
-
-    //objeto com as conexões do banco
-    protected $objBanco;
 
     protected $id;
     protected $login;
@@ -14,12 +12,6 @@ class Usuario{
     protected $usercriador;
     protected $inativo;
 
-    public function __construct(){
-        (__DIR__);
-        include "./../../config/db.php";
-
-        $this->objBanco = $objBanco;
-    } 
 
     public function setDados(array $dados): void{
         $this->login        = $dados['ds_login'] ?? '';

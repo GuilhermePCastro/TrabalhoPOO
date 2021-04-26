@@ -1,9 +1,7 @@
 <?php 
+include_once((__DIR__) . './bdClass.php');
+class Produto extends BD{
 
-class Produto{
-
-    //objeto com as conexões do banco
-    protected $objBanco;
 
     protected $sku;
     protected $nome;
@@ -17,14 +15,7 @@ class Produto{
     protected $descricao;      
     protected $inativo;
     protected $usercriador;
-
-    public function __construct(){
-        (__DIR__);
-        include "./../../config/db.php";
-
-        $this->objBanco = $objBanco;
-    } 
-
+ 
     // Seta as propriedades da classe
     public function setDados(array $dados): void{
         $this->sku         = $dados['pk_id'] ?? 0;

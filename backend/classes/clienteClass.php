@@ -1,9 +1,7 @@
 <?php 
 
-class Cliente{
-
-    //objeto com as conexões do banco
-    protected $objBanco;
+include_once((__DIR__) . './bdClass.php');
+class Cliente extends BD{
 
     //propriedades de cliente
     protected $id;
@@ -25,13 +23,6 @@ class Cliente{
     protected $usercriador;
     protected $inativo;
 
-
-    public function __construct(){
-        (__DIR__);
-        include "./../../config/db.php";
-
-        $this->objBanco = $objBanco;
-    }
 
     // Seta as propriedades da classe
     public function setDados(array $dados): void{
