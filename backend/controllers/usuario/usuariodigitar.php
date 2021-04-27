@@ -1,10 +1,11 @@
 <?php
 include_once "./../../config/db.php";
 
-
-// validando usuário
-include "./../../functions/valida_user.php";
-
+//Valdiando sessão
+(__DIR__);
+include_once "./../../classes/loginClass.php";
+$login = new Login();
+$login->validaUser();
 
 (__DIR__);
 include_once "./../../classes/usuarioClass.php";
@@ -45,8 +46,7 @@ if($usuario->incluir()){
     $objSmtm = $objBanco -> prepare("SELECT MAX(PK_ID) AS 'PK_ID' FROM TS_USUARIO");
     $objSmtm -> execute();
     $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-
-    $ret = Gravalog(intval($result['PK_ID']), 'TS_USUARIO', 'Incluiu', 'Usuário incluir');
+    Gravalog(intval($result['PK_ID']), 'TS_USUARIO', 'Incluiu', 'Usuário incluir');
 
     
     header('Location: ../../../web/src/views/usuario/usuario.php');

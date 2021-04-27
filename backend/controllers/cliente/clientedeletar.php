@@ -1,6 +1,11 @@
 <?php
-session_start();
 include_once "./../../config/db.php";
+
+//Valdiando sessão
+(__DIR__);
+include_once "./../../classes/loginClass.php";
+$login = new Login();
+$login->validaUser();
 
 $_GET['id'] = $_GET['id'] ?? false;
 

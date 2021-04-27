@@ -1,6 +1,11 @@
 <?php
-session_start();
 include_once "./../../config/db.php";
+
+//Valdiando sessão
+(__DIR__);
+include_once "./../../classes/loginClass.php";
+$login = new Login();
+$login->validaUser();
 
 (__DIR__);
 include_once "./../../classes/usuarioClass.php";
@@ -8,6 +13,7 @@ $usuario = new Usuario();
 
 $_GET['id'] = $_GET['id'] ?? false;
 
+//  Verificando se tem permissão
 if($_SESSION['usersessao']['adm'] == 0){
     header('Location: ./usuarioconsultar.php'); 
     $_SESSION['erro'] = true;
@@ -15,6 +21,7 @@ if($_SESSION['usersessao']['adm'] == 0){
     exit();
 }
 
+// Verificando se é o mesmo usuário
 if($_SESSION['usersessao']['idusuario'] == $_GET['id']){
     header('Location: ./usuarioconsultar.php'); 
     $_SESSION['erro'] = true;

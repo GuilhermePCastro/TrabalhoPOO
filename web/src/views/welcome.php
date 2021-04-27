@@ -1,13 +1,11 @@
-<?php
-  session_start();
-  
-  // validando usuário
-  if($_SESSION['usersessao']['idusuario'] == 0){
-      header('Location: ./pg-login.html');
-      exit();
-  }
-
+<?php 
+  //Valdiando sessão
+  (__DIR__);
+  include_once "../../../backend/classes/loginClass.php";
+  $login = new Login();
+  $login->validaUser();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

@@ -17,10 +17,8 @@ function Gravalog (int $codorigem, string $tabela, string $acao, string $rotina)
                                     now(),
                                     '$rotina'," . $_SESSION['usersessao']['idusuario'] . ")";
 
-    var_dump( $queryLog);
-
     
-    $retorno = $objBanco -> query($queryLog);
+    $retorno = $objBanco->query($queryLog);
 
     if($retorno){
         return 1;

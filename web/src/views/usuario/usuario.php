@@ -1,15 +1,11 @@
 <?php 
-
-
-include "../../../../backend/functions/valida_user.php";
-if($_SESSION['usersessao']['adm'] == 0){
-  header('Location: ../../../../backend/controllers/usuario/usuarioconsultar.php'); 
-  $_SESSION['erro'] = true;
-  $_SESSION['msgusu'] = 'Você não tem permissão para incluir usuários!';
-  exit();
-}
-
+  //Valdiando sessão
+  (__DIR__);
+  include_once "../../../../backend/classes/loginClass.php";
+  $login = new Login();
+  $login->validaUser();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 

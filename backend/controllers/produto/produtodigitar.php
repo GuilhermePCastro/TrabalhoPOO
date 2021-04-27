@@ -1,9 +1,11 @@
 <?php
-
 include_once "./../../config/db.php";
 
-// validando usuário
-include "./../../functions/valida_user.php";
+//Valdiando sessão
+(__DIR__);
+include_once "./../../classes/loginClass.php";
+$login = new Login();
+$login->validaUser();
 
 //classe de produtos
 (__DIR__);

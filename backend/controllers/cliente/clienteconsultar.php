@@ -1,12 +1,11 @@
 <?php
-session_start();
-include_once "../../../backend/config/db.php";
+include_once "./../../config/db.php";
 
-// Se não tem sessão, volta para o login
-if(!$_SESSION['usersessao']){
-    header('Location: ../../../web/src/views/pg-login.html');
-    exit();
-}
+//Valdiando sessão
+(__DIR__);
+include_once "./../../classes/loginClass.php";
+$login = new Login();
+$login->validaUser();
 
 // Listar registros
 $fantasia   = isset($_GET['ds_fantasia']) ? $_GET['ds_fantasia'] : '0';

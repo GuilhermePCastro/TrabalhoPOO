@@ -1,6 +1,7 @@
 <?php
 session_start();
-if($_SESSION['idusuario'] = 0){
+
+if($_SESSION['idusuario'] == 0){
     header('Location: ../../../web/src/views/pg-login.html');
     exit();
 }

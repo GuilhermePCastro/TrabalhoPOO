@@ -1,6 +1,6 @@
 <?php
 
-class BD{
+abstract class BD{
 
      //objeto com as conexões do banco
      private $DSN;

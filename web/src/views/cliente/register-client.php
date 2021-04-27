@@ -1,4 +1,11 @@
-<?php include "../../../../backend/functions/valida_user.php";?>
+<?php 
+  //Valdiando sessão
+  (__DIR__);
+  include_once "../../../../backend/classes/loginClass.php";
+  $login = new Login();
+  $login->validaUser();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>

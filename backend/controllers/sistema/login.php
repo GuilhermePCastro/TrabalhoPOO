@@ -14,6 +14,7 @@ if($login->setDados($_POST)){
 //Verificando se voltou login e senha válidos
 if($login->validaLogin()){
 
+    //Cria sessão
     $login->criaSession();
     header('Location: ../../../web/src/views/welcome.php');
     exit();

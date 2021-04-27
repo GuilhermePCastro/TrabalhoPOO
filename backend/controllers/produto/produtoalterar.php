@@ -1,23 +1,22 @@
 <?php 
-session_start();
 include_once "./../../config/db.php";
 
+//Valdiando sessão
+(__DIR__);
+include_once "./../../classes/loginClass.php";
+$login = new Login();
+$login->validaUser();
 
-// validando usuário
-if($_SESSION['usersessao']['idusuario'] == 0){
-    header('Location: ./../../pg-login.html');
-    exit();
-}
+//Objeto de produto
+(__DIR__);
+include_once "./../../classes/produtoClass.php";
+$produto = new Produto();
+
 
 // verificando se é uma alteração   
 if(isset($_POST['pk_id'])){
 
     $_POST['pk_id'] = preg_replace('/\D/','', $_POST['pk_id']);
-    
-    //Objeto de produto
-    (__DIR__);
-    include_once "./../../classes/produtoClass.php";
-    $produto = new Produto();
 
     //setando dados
     $produto->setDados($_POST);

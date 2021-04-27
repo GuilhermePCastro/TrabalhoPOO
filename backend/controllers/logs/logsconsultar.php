@@ -1,12 +1,12 @@
 <?php
-session_start();
 include_once "../../../backend/config/db.php";
 
-// Se não tem sessão, volta para o login
-if(!$_SESSION['usersessao']){
-    header('Location: ../../../web/src/views/pg-login.html');
-    exit();
-}
+//Valdiando sessão
+(__DIR__);
+include_once "./../../classes/loginClass.php";
+$login = new Login();
+$login->validaUser();
+
 
 if($_SESSION['usersessao']['adm'] == 0){
     $query = "SELECT PK_ID, FK_ORIGEM, DS_TABELAORIGEM, DS_ACAO FROM TS_LOG WHERE PK_ID = 0";

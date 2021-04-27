@@ -1,12 +1,11 @@
 <?php 
-session_start();
 include_once "./../../config/db.php";
 
-// validando usuário
-if($_SESSION['usersessao']['idusuario'] == 0){
-    header('Location: ./pg-login.html') ;
-    exit();
-}
+//Valdiando sessão
+(__DIR__);
+include_once "./../../classes/loginClass.php";
+$login = new Login();
+$login->validaUser();
 
 
 // verificando se é uma alteração   

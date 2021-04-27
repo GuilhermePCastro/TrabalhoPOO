@@ -31,9 +31,9 @@ class Login extends BD{
         $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
 
         if(password_verify($this->senha, $result['DS_SENHA'])){
-            $this->userId = $dados['TG_ADM'];
-            $this->email  = $dados['DS_EMAIL'];  
-            $this->adm    = $dados['TG_ADM']; 
+            $this->userId = $result['PK_ID'];
+            $this->email  = $result['DS_EMAIL'];  
+            $this->adm    = $result['TG_ADM']; 
 
             return true;
         }else{
@@ -54,6 +54,16 @@ class Login extends BD{
         session_destroy();
         header('Location: ../../../web/src/views/pg-login.html');
         exit();
+    }
+
+    public function validaUser(){
+        session_start();
+        // Se não tem sessão, volta para o login
+        if(!$_SESSION['usersessao']){
+            header('Location: ../../../web/src/views/pg-login.html');
+            exit();
+        }
+
     }
 
 
