@@ -1,23 +1,22 @@
 <?php 
 include_once "./../../config/db.php";
 
-//Valdiando sessão
+//Validando sessão
 (__DIR__);
 include_once "./../../classes/loginClass.php";
 $login = new Login();
 $login->validaUser();
 
+//Objeto de cliente
+(__DIR__);
+include_once "./../../classes/clienteClass.php";
+$cliente = new Cliente();
 
 // verificando se é uma alteração   
 if(isset($_POST['pk_id'])){
     
     //tratando ID
     $_POST['pk_id'] = preg_replace('/\D/','', $_POST['pk_id']);
-
-    //Objeto de cliente
-    (__DIR__);
-    include_once "./../../classes/clienteClass.php";
-    $cliente = new Cliente();
 
     // Setando dados
     $cliente->setDados($_POST);
