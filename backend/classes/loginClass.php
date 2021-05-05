@@ -1,6 +1,6 @@
 <?php
-include_once((__DIR__) . './bdClass.php');
-class Login extends BD{
+include_once((__DIR__) . './sessaoClass.php');
+class Login extends Sessao{
 
     protected $login;
     protected $senha;
@@ -41,19 +41,21 @@ class Login extends BD{
         }
     }
 
+    public function logout(){
+        session_start();
+        session_destroy();
+        header('Location: ../../../web/src/views/pg-login.html');
+        exit();
+    }
+
+    // Será criado uma nova classe que só controlará sessão 
+    /*
     public function criaSession(){
 
         $_SESSION['usersessao'] = array('usuario' => $this->login, 
                                         'idusuario' => preg_replace('/\D/','', $this->userId), 
                                         'emailusuario' => $this->email, 
                                         'adm' => preg_replace('/\D/','',$this->adm));
-    }
-
-    public function logout(){
-        session_start();
-        session_destroy();
-        header('Location: ../../../web/src/views/pg-login.html');
-        exit();
     }
 
     public function validaUser(){
@@ -66,6 +68,7 @@ class Login extends BD{
 
     }
 
+    //*---------------------------------------------------------------- */
 
 
 }
