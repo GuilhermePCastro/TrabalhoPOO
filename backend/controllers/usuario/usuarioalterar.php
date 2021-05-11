@@ -7,8 +7,6 @@ include_once "./../../classes/sessaoClass.php";
 $sessao = new Sessao();
 $sessao->validaUser();
 
-
-
 // Verificando se tem permissão
 if($_SESSION['usersessao']['adm'] == 0){
     
