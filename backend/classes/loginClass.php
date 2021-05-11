@@ -1,9 +1,9 @@
 <?php
-include_once((__DIR__) . './sessaoClass.php');
-class Login extends Sessao{
+include_once((__DIR__) . './bdClass.php');
+class Login extends BD{
 
     protected $login;
-    protected $senha;
+    private $senha;
     protected $userId;
     protected $email;
     protected $adm;
@@ -47,6 +47,14 @@ class Login extends Sessao{
         header('Location: ../../../web/src/views/pg-login.html');
         exit();
     }
+
+    public function getDados(){
+        $dados = [  'login'  => $this->login, 
+                    'userId' => $this->userId,
+                    'email'  => $this->email,
+                    'adm'    => $this->adm ];
+        return $dados;
+    } 
 
     // Será criado uma nova classe que só controlará sessão 
     /*

@@ -1,9 +1,11 @@
 <?php
 session_start();
 
+//classe Login
 (__DIR__);
 include_once "./../../classes/loginClass.php";
 $login = new Login();
+
 
 //verificando se o usuário tentou entrar sem credênciais 
 if($login->setDados($_POST)){
@@ -14,8 +16,16 @@ if($login->setDados($_POST)){
 //Verificando se voltou login e senha válidos
 if($login->validaLogin()){
 
-    //Cria sessão
-    $login->criaSession();
+    //Classe Sessão
+    include_once "./../../classes/sessaoClass.php";
+    $sessao = new Sessao();
+
+    //Setando os dados de Sessão com o retorno do login
+    $sessao->setDados($login->getDados());
+
+    //cria sessão
+    $sessao->criaSession();
+
     header('Location: ../../../web/src/views/welcome.php');
     exit();
 
