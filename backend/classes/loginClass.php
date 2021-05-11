@@ -1,6 +1,6 @@
 <?php
 include_once((__DIR__) . './bdClass.php');
-class Login extends DB{
+class Login extends BD{
 
     protected $login;
     private $senha;
