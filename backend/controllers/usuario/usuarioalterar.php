@@ -9,6 +9,7 @@ $sessao->validaUser();
 
 // Verificando se tem permissão
 if($_SESSION['usersessao']['adm'] == 0){
+    
     header('Location: ./../../usuarioconsultar.php'); 
     $_SESSION['erro'] = true;
     $_SESSION['msgusu'] = 'Você não tem permissão para alterar usuários!';
