@@ -1,9 +1,9 @@
 <?php 
   //Valdiando sessão
   (__DIR__);
-  include_once "../../../../backend/classes/loginClass.php";
-  $login = new Login();
-  $login->validaUser();
+  include_once "../../../../backend/classes/sessaoClass.php";
+  $sessao = new Sessao();
+  $sessao->validaUser();
 ?>
 
 <!DOCTYPE html>
