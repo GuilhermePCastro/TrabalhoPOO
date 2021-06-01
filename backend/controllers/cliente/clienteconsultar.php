@@ -1,10 +1,11 @@
 <?php
 include_once "./../../config/db.php";
 
-//Valdiando sessão
+//Validando sessão
 (__DIR__);
-include_once "./../../classes/sessaoClass.php";
-$sessao = new Sessao();
+include_once "./../../factorys/factorySessao.php";
+$sessao = new FactorySessao();
+$sessao = $sessao::criaSessao("Login");
 $sessao->validaUser();
 
 // Listar registros
@@ -14,8 +15,9 @@ $cpf        = isset($_GET['nr_cpf']) ? $_GET['nr_cpf'] : '0';
 
 //Objeto de cliente
 (__DIR__);
-include_once "./../../classes/clienteClass.php";
-$cliente = new Cliente();
+include_once "./../../factorys/factoryCliente.php";
+$cliente = new FactoryCliente();
+$cliente = $cliente::criaCliente("Cliente");
 
 //Função que traz os registros e mostra na tela
 $result = $cliente->consulta($fantasia, $cpf);

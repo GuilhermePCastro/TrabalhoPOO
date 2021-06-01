@@ -1,15 +1,18 @@
 <?php
 include_once "./../../config/db.php";
 
-//Valdiando sessão
+//Validando sessão
 (__DIR__);
-include_once "./../../classes/sessaoClass.php";
-$sessao = new Sessao();
+include_once "./../../factorys/factorySessao.php";
+$sessao = new FactorySessao();
+$sessao = $sessao::criaSessao("Login");
 $sessao->validaUser();
 
+//Objeto de usuário
 (__DIR__);
-include_once "./../../classes/usuarioClass.php";
-$usuario = new Usuario();
+include_once "./../../factorys/factoryUsuario.php";
+$usuario = new FactoryUsuario();
+$usuario = $usuario::criaUsuario("Usuario");
 
 $usuario->setDados($_POST);
 
@@ -39,14 +42,17 @@ if($usuario->validaEmail()){
 
 if($usuario->incluir()){
 
+    //Grava o Log
     (__DIR__);
-    include './../../functions/gravalog.php';
+    include_once "./../../factorys/factoryLog.php";
+    $log = new FactoryLog();
+    $log = $log::criaLog("LogBanco");
 
     // grava log
     $objSmtm = $objBanco -> prepare("SELECT MAX(PK_ID) AS 'PK_ID' FROM TS_USUARIO");
     $objSmtm -> execute();
     $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-    Gravalog(intval($result['PK_ID']), 'TS_USUARIO', 'Incluiu', 'Usuário incluir');
+    $log->Gravalog(intval($result['PK_ID']), 'TS_USUARIO', 'Incluiu', 'Usuário incluir');
 
     
     header('Location: ../../../web/src/views/usuario/usuario.php');

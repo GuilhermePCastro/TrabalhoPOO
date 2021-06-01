@@ -1,10 +1,11 @@
 <?php
 include_once "./../../config/db.php";
 
-//Valdiando sessão
+//Validando sessão
 (__DIR__);
-include_once "./../../classes/sessaoClass.php";
-$sessao = new Sessao();
+include_once "./../../factorys/factorySessao.php";
+$sessao = new FactorySessao();
+$sessao = $sessao::criaSessao("Login");
 $sessao->validaUser();
 
 $_GET['id'] = $_GET['id'] ?? false;
@@ -25,8 +26,9 @@ if($_GET['id']){
 
     //Objeto de produto
     (__DIR__);
-    include_once "./../../classes/produtoClass.php";
-    $produto = new Produto();
+    include_once "./../../factorys/factoryProduto.php";
+    $produto = new FactoryProduto();
+    $produto = $produto::criaProduto("Produto");
 
     //Setando dados
     $produto->setDados($dados);
@@ -34,10 +36,12 @@ if($_GET['id']){
     // retornando resultado
     if($produto->deleta()){
 
-        //Grava Log
+        //Grava o Log
         (__DIR__);
-        include './../../functions/gravalog.php';
-        $ret = Gravalog(intval($dados['pk_id']), 'TB_PRODUTO', 'Deletou', 'Produto deletar');
+        include_once "./../../factorys/factoryLog.php";
+        $log = new FactoryLog();
+        $log = $log::criaLog("LogBanco");
+        $ret = $log->Gravalog(intval($dados['pk_id']), 'TB_PRODUTO', 'Deletou', 'Produto deletar');
 
         //Redireciona para view com msg
         header('Location: ./produtoconsultar.php'); 
