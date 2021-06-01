@@ -4,8 +4,7 @@ session_start();
 //Objeto de produto
 (__DIR__);
 include_once "./../../factorys/factoryLogin.php";
-$login = new FactoryLogin();
-$login = $login::criaLogin("Normal");
+$login = FactoryLogin::criaLogin("Normal");
 
 
 //verificando se o usuário tentou entrar sem credênciais 

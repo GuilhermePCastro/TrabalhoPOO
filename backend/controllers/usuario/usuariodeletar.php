@@ -4,15 +4,13 @@ include_once "./../../config/db.php";
 //Validando sessão
 (__DIR__);
 include_once "./../../factorys/factorySessao.php";
-$sessao = new FactorySessao();
-$sessao = $sessao::criaSessao("Login");
+$sessao = FactorySessao::criaSessao("Login");
 $sessao->validaUser();
 
 //Objeto de usuário
 (__DIR__);
 include_once "./../../factorys/factoryUsuario.php";
-$usuario = new FactoryUsuario();
-$usuario = $usuario::criaUsuario("Usuario");
+$usuario = FactoryUsuario::criaUsuario("Usuario");
 
 $_GET['id'] = $_GET['id'] ?? false;
 
@@ -45,8 +43,7 @@ if($_GET['id']){
         //Grava o Log
         (__DIR__);
         include_once "./../../factorys/factoryLog.php";
-        $log = new FactoryLog();
-        $log = $log::criaLog("LogBanco");
+        $log = FactoryLog::criaLog("LogBanco");
 
         $ret = $log->Gravalog(intval($id), 'TS_USUARIO', 'Deletou', 'Usuário deletar');
 

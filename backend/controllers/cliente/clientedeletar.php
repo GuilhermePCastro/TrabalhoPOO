@@ -4,8 +4,7 @@ include_once "./../../config/db.php";
 //Validando sessão
 (__DIR__);
 include_once "./../../factorys/factorySessao.php";
-$sessao = new FactorySessao();
-$sessao = $sessao::criaSessao("Login");
+$sessao = FactorySessao::criaSessao("Login");
 $sessao->validaUser();
 
 $_GET['id'] = $_GET['id'] ?? false;
@@ -26,8 +25,7 @@ if($_GET['id']){
     //Objeto de cliente
     (__DIR__);
     include_once "./../../factorys/factoryCliente.php";
-    $cliente = new FactoryCliente();
-    $cliente = $cliente::criaCliente("Cliente");
+    $cliente = FactoryCliente::criaCliente("Cliente");
 
     $cliente->setDados($dados);
 
@@ -35,12 +33,10 @@ if($_GET['id']){
     // retornando resultado
     if($cliente->deleta()){
 
-         //Grava o Log
         //Grava o Log
         (__DIR__);
         include_once "./../../factorys/factoryLog.php";
-        $log = new FactoryLog();
-        $log = $log::criaLog("LogBanco");
+        $log = FactoryLog::criaLog("LogBanco");
         $ret = $log->Gravalog(intval($dados['pk_id']), 'TB_CLIENTE', 'Deletou', 'Cliente deletar');
 
         //Retorna o Sucesso

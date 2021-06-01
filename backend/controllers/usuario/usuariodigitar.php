@@ -4,15 +4,13 @@ include_once "./../../config/db.php";
 //Validando sessão
 (__DIR__);
 include_once "./../../factorys/factorySessao.php";
-$sessao = new FactorySessao();
-$sessao = $sessao::criaSessao("Login");
+$sessao = FactorySessao::criaSessao("Login");
 $sessao->validaUser();
 
 //Objeto de usuário
 (__DIR__);
 include_once "./../../factorys/factoryUsuario.php";
-$usuario = new FactoryUsuario();
-$usuario = $usuario::criaUsuario("Usuario");
+$usuario = FactoryUsuario::criaUsuario("Usuario");
 
 $usuario->setDados($_POST);
 
@@ -45,8 +43,7 @@ if($usuario->incluir()){
     //Grava o Log
     (__DIR__);
     include_once "./../../factorys/factoryLog.php";
-    $log = new FactoryLog();
-    $log = $log::criaLog("LogBanco");
+    $log = FactoryLog::criaLog("LogBanco");
 
     // grava log
     $objSmtm = $objBanco -> prepare("SELECT MAX(PK_ID) AS 'PK_ID' FROM TS_USUARIO");

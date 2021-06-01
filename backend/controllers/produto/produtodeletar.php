@@ -4,8 +4,7 @@ include_once "./../../config/db.php";
 //Validando sessão
 (__DIR__);
 include_once "./../../factorys/factorySessao.php";
-$sessao = new FactorySessao();
-$sessao = $sessao::criaSessao("Login");
+$sessao = FactorySessao::criaSessao("Login");
 $sessao->validaUser();
 
 $_GET['id'] = $_GET['id'] ?? false;
@@ -27,8 +26,7 @@ if($_GET['id']){
     //Objeto de produto
     (__DIR__);
     include_once "./../../factorys/factoryProduto.php";
-    $produto = new FactoryProduto();
-    $produto = $produto::criaProduto("Produto");
+    $produto = FactoryProduto::criaProduto("Produto");
 
     //Setando dados
     $produto->setDados($dados);
@@ -39,8 +37,7 @@ if($_GET['id']){
         //Grava o Log
         (__DIR__);
         include_once "./../../factorys/factoryLog.php";
-        $log = new FactoryLog();
-        $log = $log::criaLog("LogBanco");
+        $log = FactoryLog::criaLog("LogBanco");
         $ret = $log->Gravalog(intval($dados['pk_id']), 'TB_PRODUTO', 'Deletou', 'Produto deletar');
 
         //Redireciona para view com msg

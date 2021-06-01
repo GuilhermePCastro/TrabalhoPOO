@@ -4,13 +4,13 @@ include_once "./../../config/db.php";
 //Validando sessão
 (__DIR__);
 include_once "./../../factorys/factorySessao.php";
-$sessao = new FactorySessao();
-$sessao = $sessao::criaSessao("Login");
+$sessao = FactorySessao::criaSessao("Login");
 $sessao->validaUser();
 
+//Grava o Log
 (__DIR__);
-include_once "./../../classes/logClass.php";
-$log = new Log();
+include_once "./../../factorys/factoryLog.php";
+$log = FactoryLog::criaLog("LogBanco");
  
 $id = preg_replace('/\D/','', $_GET['id']);
 $array = $log->vizualizar($id);
