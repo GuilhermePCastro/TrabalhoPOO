@@ -1,10 +1,11 @@
 <?php
 session_start();
 
-//classe Login
+//Objeto de produto
 (__DIR__);
-include_once "./../../classes/loginClass.php";
-$login = new Login();
+include_once "./../../factorys/factoryLogin.php";
+$login = new FactoryLogin();
+$login = $login::criaLogin("Normal");
 
 
 //verificando se o usuário tentou entrar sem credênciais 
@@ -17,8 +18,10 @@ if($login->setDados($_POST)){
 if($login->validaLogin()){
 
     //Classe Sessão
-    include_once "./../../classes/sessaoClass.php";
-    $sessao = new Sessao();
+    (__DIR__);
+    include_once "./../../factorys/factorySessao.php";
+    $sessao = new FactorySessao();
+    $sessao = $sessao::criaSessao("Login");
 
     //Setando os dados de Sessão com o retorno do login
     $sessao->setDados($login->getDados());

@@ -1,16 +1,18 @@
 <?php
 include_once "./../../config/db.php";
 
-//Valdiando sessão
+//Validando sessão
 (__DIR__);
-include_once "./../../classes/sessaoClass.php";
-$sessao = new Sessao();
+include_once "./../../factorys/factorySessao.php";
+$sessao = new FactorySessao();
+$sessao = $sessao::criaSessao("Login");
 $sessao->validaUser();
 
-//classe de produtos
+//Objeto de produto
 (__DIR__);
-include_once "./../../classes/produtoClass.php";
-$produto = new Produto();
+include_once "./../../factorys/factoryProduto.php";
+$produto = new FactoryProduto();
+$produto = $produto::criaProduto("Produto");
 
 $produto->setDados($_POST);
 
@@ -50,14 +52,17 @@ if(!$produto->verifCategoria()){
 
 if($produto->incluir()){
 
+    //Grava o Log
     (__DIR__);
-    include './../../functions/gravalog.php';
+    include_once "./../../factorys/factoryLog.php";
+    $log = new FactoryLog();
+    $log = $log::criaLog("LogBanco");
 
     // grava log
     $objSmtm = $objBanco -> prepare("SELECT MAX(PK_SKU) AS 'PK_ID' FROM TB_PRODUTO");
     $objSmtm -> execute();
     $result = $objSmtm -> fetch(PDO::FETCH_ASSOC);
-    $ret = Gravalog(intval($result['PK_ID']), 'TB_PRODUTO', 'Incluiu', 'Produto incluir');
+    $ret = $log->Gravalog(intval($result['PK_ID']), 'TB_PRODUTO', 'Incluiu', 'Produto incluir');
 
     $_SESSION['erro'] = false;
     $_SESSION['msgusu'] = 'Registro salvo com sucesso!';

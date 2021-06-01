@@ -1,17 +1,18 @@
 <?php 
 include_once "./../../config/db.php";
 
-//Valdiando sessão
+//Validando sessão
 (__DIR__);
-include_once "./../../classes/sessaoClass.php";
-$sessao = new Sessao();
+include_once "./../../factorys/factorySessao.php";
+$sessao = new FactorySessao();
+$sessao = $sessao::criaSessao("Login");
 $sessao->validaUser();
 
+(__DIR__);
+include_once "./../../classes/logClass.php";
+$log = new Log();
  
 $id = preg_replace('/\D/','', $_GET['id']);
-$query = "SELECT LOG.*, USU.DS_LOGIN, DATE_FORMAT(LOG.DH_ACAO,'%d/%m/%Y %T') AS 'DC_ACAO' FROM TS_LOG LOG LEFT JOIN TS_USUARIO USU ON USU.PK_ID = LOG.FK_USUACAO WHERE LOG.PK_ID = $id";
-$result = $objBanco -> query($query);
-
-$array = $result -> fetch(PDO::FETCH_ASSOC);
+$array = $log->vizualizar($id);
 
 include "../../../web/src/views/logs/visualize-logs.php";

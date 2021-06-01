@@ -1,10 +1,11 @@
 <?php
 include_once "./../../config/db.php";
 
-//Valdiando sessão
+//Validando sessão
 (__DIR__);
-include_once "./../../classes/sessaoClass.php";
-$sessao = new Sessao();
+include_once "./../../factorys/factorySessao.php";
+$sessao = new FactorySessao();
+$sessao = $sessao::criaSessao("Login");
 $sessao->validaUser();
 
 $_GET['id'] = $_GET['id'] ?? false;
@@ -24,8 +25,9 @@ if($_GET['id']){
 
     //Objeto de cliente
     (__DIR__);
-    include_once "./../../classes/clienteClass.php";
-    $cliente = new Cliente();
+    include_once "./../../factorys/factoryCliente.php";
+    $cliente = new FactoryCliente();
+    $cliente = $cliente::criaCliente("Cliente");
 
     $cliente->setDados($dados);
 
@@ -33,10 +35,13 @@ if($_GET['id']){
     // retornando resultado
     if($cliente->deleta()){
 
-        //Grava Log
+         //Grava o Log
+        //Grava o Log
         (__DIR__);
-        include './../../functions/gravalog.php';
-        $ret = Gravalog(intval($dados['pk_id']), 'TB_CLIENTE', 'Deletou', 'Cliente deletar');
+        include_once "./../../factorys/factoryLog.php";
+        $log = new FactoryLog();
+        $log = $log::criaLog("LogBanco");
+        $ret = $log->Gravalog(intval($dados['pk_id']), 'TB_CLIENTE', 'Deletou', 'Cliente deletar');
 
         //Retorna o Sucesso
         header('Location: ./clienteconsultar.php'); 

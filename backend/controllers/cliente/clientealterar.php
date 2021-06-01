@@ -3,14 +3,16 @@ include_once "./../../config/db.php";
 
 //Validando sessão
 (__DIR__);
-include_once "./../../classes/sessaoClass.php";
-$sessao = new Sessao();
+include_once "./../../factorys/factorySessao.php";
+$sessao = new FactorySessao();
+$sessao = $sessao::criaSessao("Login");
 $sessao->validaUser();
 
 //Objeto de cliente
 (__DIR__);
-include_once "./../../classes/clienteClass.php";
-$cliente = new Cliente();
+include_once "./../../factorys/factoryCliente.php";
+$cliente = new FactoryCliente();
+$cliente = $cliente::criaCliente("Cliente");
 
 // verificando se é uma alteração   
 if(isset($_POST['pk_id'])){
@@ -34,8 +36,10 @@ if(isset($_POST['pk_id'])){
 
         //Grava o Log
         (__DIR__);
-        include './../../functions/gravalog.php';
-        $ret = Gravalog(intval($_POST['pk_id']), 'TB_CLIENTE', 'Alterou', 'Cliente alterar');
+        include_once "./../../factorys/factoryLog.php";
+        $log = new FactoryLog();
+        $log = $log::criaLog("LogBanco");
+        $ret = $log->Gravalog(intval($_POST['pk_id']), 'TB_CLIENTE', 'Alterou', 'Cliente alterar');
 
         //Retorna o sucesso
         header('Location: ./clienteconsultar.php');

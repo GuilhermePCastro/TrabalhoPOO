@@ -1,16 +1,18 @@
 <?php 
 include_once "./../../config/db.php";
 
-//Valdiando sessão
+//Validando sessão
 (__DIR__);
-include_once "./../../classes/sessaoClass.php";
-$sessao = new Sessao();
+include_once "./../../factorys/factorySessao.php";
+$sessao = new FactorySessao();
+$sessao = $sessao::criaSessao("Login");
 $sessao->validaUser();
 
 //Objeto de produto
 (__DIR__);
-include_once "./../../classes/produtoClass.php";
-$produto = new Produto();
+include_once "./../../factorys/factoryProduto.php";
+$produto = new FactoryProduto();
+$produto = $produto::criaProduto("Produto");
 
 
 // verificando se é uma alteração   
@@ -41,10 +43,13 @@ if(isset($_POST['pk_id'])){
 
     if($produto->alterar()){
 
-        //grava log
+        //Grava o Log
         (__DIR__);
-        include './../../functions/gravalog.php';
-        $ret = Gravalog(intval($_POST['pk_id']), 'TB_PRODUTO', 'Alterou', 'Produto alterar');
+        include_once "./../../factorys/factoryLog.php";
+        $log = new FactoryLog();
+        $log = $log::criaLog("LogBanco");
+
+        $ret = $log->Gravalog(intval($_POST['pk_id']), 'TB_PRODUTO', 'Alterou', 'Produto alterar');
 
 
         header('Location: ./../../controllers/produto/produtoconsultar.php');

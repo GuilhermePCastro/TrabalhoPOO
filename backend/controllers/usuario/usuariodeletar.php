@@ -1,15 +1,18 @@
 <?php
 include_once "./../../config/db.php";
 
-//Valdiando sessão
+//Validando sessão
 (__DIR__);
-include_once "./../../classes/sessaoClass.php";
-$sessao = new Sessao();
+include_once "./../../factorys/factorySessao.php";
+$sessao = new FactorySessao();
+$sessao = $sessao::criaSessao("Login");
 $sessao->validaUser();
 
+//Objeto de usuário
 (__DIR__);
-include_once "./../../classes/usuarioClass.php";
-$usuario = new Usuario();
+include_once "./../../factorys/factoryUsuario.php";
+$usuario = new FactoryUsuario();
+$usuario = $usuario::criaUsuario("Usuario");
 
 $_GET['id'] = $_GET['id'] ?? false;
 
@@ -39,10 +42,13 @@ if($_GET['id']){
     // retornando resultado
     if($usuario->deleta()){
 
+        //Grava o Log
         (__DIR__);
-        include './../../functions/gravalog.php';
+        include_once "./../../factorys/factoryLog.php";
+        $log = new FactoryLog();
+        $log = $log::criaLog("LogBanco");
 
-        $ret = Gravalog(intval($id), 'TS_USUARIO', 'Deletou', 'Usuário deletar');
+        $ret = $log->Gravalog(intval($id), 'TS_USUARIO', 'Deletou', 'Usuário deletar');
 
         header('Location: ./usuarioconsultar.php'); 
         $_SESSION['erro'] = false;
