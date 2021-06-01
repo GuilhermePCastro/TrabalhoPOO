@@ -4,15 +4,13 @@ include_once "./../../config/db.php";
 //Validando sessão
 (__DIR__);
 include_once "./../../factorys/factorySessao.php";
-$sessao = new FactorySessao();
-$sessao = $sessao::criaSessao("Login");
+$sessao = FactorySessao::criaSessao("Login");
 $sessao->validaUser();
 
 //Objeto de cliente
 (__DIR__);
 include_once "./../../factorys/factoryCliente.php";
-$cliente = new FactoryCliente();
-$cliente = $cliente::criaCliente("Cliente");
+$cliente = FactoryCliente::criaCliente("Cliente");
 
 //setando os dados do cliente
 $cliente->setDados($_POST);
@@ -54,8 +52,7 @@ if($cliente->incluir()){
     //Grava o Log
     (__DIR__);
     include_once "./../../factorys/factoryLog.php";
-    $log = new FactoryLog();
-    $log = $log::criaLog("LogBanco");
+    $log = FactoryLog::criaLog("LogBanco");
 
     // grava log
     $objSmtm = $objBanco -> prepare("SELECT MAX(PK_ID) AS 'PK_ID' FROM TB_CLIENTE");

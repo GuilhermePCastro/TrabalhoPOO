@@ -4,14 +4,13 @@ include_once "../../../backend/config/db.php";
 //Validando sessão
 (__DIR__);
 include_once "./../../factorys/factorySessao.php";
-$sessao = new FactorySessao();
-$sessao = $sessao::criaSessao("Login");
+$sessao = FactorySessao::criaSessao("Login");
 $sessao->validaUser();
 
-//classe de Log
+//Grava o Log
 (__DIR__);
-include_once "./../../classes/logClass.php";
-$log = new Log();
+include_once "./../../factorys/factoryLog.php";
+$log = FactoryLog::criaLog("LogBanco");
 
 if($_SESSION['usersessao']['adm'] == 0){
     $result = $log->consultaVazia();

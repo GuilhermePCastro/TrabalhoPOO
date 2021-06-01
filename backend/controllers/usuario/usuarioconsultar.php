@@ -4,15 +4,13 @@ include_once "./../../config/db.php";
 //Validando sessão
 (__DIR__);
 include_once "./../../factorys/factorySessao.php";
-$sessao = new FactorySessao();
-$sessao = $sessao::criaSessao("Login");
+$sessao = FactorySessao::criaSessao("Login");
 $sessao->validaUser();
 
 //Objeto de usuário
 (__DIR__);
 include_once "./../../factorys/factoryUsuario.php";
-$usuario = new FactoryUsuario();
-$usuario = $usuario::criaUsuario("Usuario");
+$usuario = FactoryUsuario::criaUsuario("Usuario");
 
 // Listar registros
 $login   = isset($_GET['ds_login']) ? $_GET['ds_login'] : '0';

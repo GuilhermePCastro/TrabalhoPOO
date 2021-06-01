@@ -4,8 +4,7 @@ include_once "./../../config/db.php";
 //Validando sessão
 (__DIR__);
 include_once "./../../factorys/factorySessao.php";
-$sessao = new FactorySessao();
-$sessao = $sessao::criaSessao("Login");
+$sessao = FactorySessao::criaSessao("Login");
 $sessao->validaUser();
 
 // Verificando se tem permissão
@@ -20,8 +19,7 @@ if($_SESSION['usersessao']['adm'] == 0){
 //Objeto de usuário
 (__DIR__);
 include_once "./../../factorys/factoryUsuario.php";
-$usuario = new FactoryUsuario();
-$usuario = $usuario::criaUsuario("Usuario");
+$usuario = FactoryUsuario::criaUsuario("Usuario");
 
 
 // verificando se é uma alteração   
@@ -70,8 +68,7 @@ if(isset($_POST['pk_id'])){
         //Grava o Log
         (__DIR__);
         include_once "./../../factorys/factoryLog.php";
-        $log = new FactoryLog();
-        $log = $log::criaLog("LogBanco");
+        $log = FactoryLog::criaLog("LogBanco");
 
         $ret = $log->Gravalog(intval($_POST['pk_id']), 'TS_USUARIO', 'Alterou', 'Usuário alterar');
 
